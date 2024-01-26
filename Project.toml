@@ -1,0 +1,13 @@
+name = "FourMomentumBase"
+uuid = "592a752d-6533-4762-a71b-738712ea30ec"
+authors = ["Uwe Hernandez Acosta <u.hernandez@hzdr.de"]
+version = "0.0.1-DEV"
+
+[compat]
+julia = "1.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
