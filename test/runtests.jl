@@ -1,6 +1,13 @@
 using FourMomentumBase
 using Test
+using SafeTestsets
 
-@testset "FourMomentumBase.jl" begin
-    # Write your tests here.
+begin
+    @time @safetestset "interface" begin
+        include("interface.jl")
+    end
+
+    @time @safetestset "xyze" begin
+        include("xyze.jl")
+    end
 end
