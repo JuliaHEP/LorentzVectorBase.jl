@@ -19,8 +19,8 @@ const FOURMOMENTUM_GETTER_FUNCTIONS = (
     :px,
     :py,
     :pz,
-    :magnitude2,
-    :magnitude,
+    :spatial_magnitude2,
+    :spatial_magnitude,
     :invariant_mass2,
     :invariant_mass,
     :boost_beta,
@@ -49,8 +49,8 @@ for func in FOURMOMENTUM_GETTER_FUNCTIONS
 end
 
 const FOURMOMENTUM_GETTER_ALIASSES = Dict(
-    :mag2 => :magnitude2,
-    :mag => :magnitude,
+    :mag2 => :spatial_magnitude2,
+    :mag => :spatial_magnitude,
     :mass2 => :invariant_mass2,
     :mass => :invariant_mass,
     :pt2 => :transverse_momentum2,
