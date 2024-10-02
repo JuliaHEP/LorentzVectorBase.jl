@@ -10,11 +10,11 @@ makedocs(;
     authors="Uwe Hernandez Acosta <u.hernandez@hzdr.de",
     sitename="LorentzVectorBase.jl",
     format=Documenter.HTML(;
-        canonical="https://szabo137.github.io/LorentzVectorBase.jl",
+        canonical="https://JuliaHEP.github.io/LorentzVectorBase.jl",
         edit_link="main",
         assets=String[],
     ),
     pages=["Home" => "index.md"],
 )
 
-deploydocs(; repo="github.com/szabo137/LorentzVectorBase.jl", devbranch="main")
+deploydocs(; repo="github.com/JuliaHEP/LorentzVectorBase.jl", devbranch="main")
