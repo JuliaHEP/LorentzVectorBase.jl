@@ -1,14 +1,14 @@
 ```@meta
-CurrentModule = FourMomentumBase
+CurrentModule = LorentzVectorBase
 ```
 
-# FourMomentumBase
+# LorentzVectorBase
 
-Documentation for [FourMomentumBase](https://github.com/szabo137/FourMomentumBase.jl).
+Documentation for [LorentzVectorBase](https://github.com/szabo137/LorentzVectorBase.jl).
 
 ```@index
 ```
 
 ```@autodocs
-Modules = [FourMomentumBase]
+Modules = [LorentzVectorBase]
 ```
