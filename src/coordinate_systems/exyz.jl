@@ -13,7 +13,7 @@ energy(::CustomFourMomentum)
 
 """
 struct EXYZ <: AbstractCoordinateSystem end
-coordinate_names(::EXYZ) = (:energy, :px, :py, :pz)
+coordinate_names(::EXYZ) = (:px, :py, :pz, :energy)
 
 ####
 # Interface functions
@@ -93,7 +93,7 @@ end
 
 """
 
-    invariant_mass2(::EXYZ,mom)
+    mass2(::EXYZ,mom)
 
 Return the squared invariant mass of a given four-momentum, i.e. the minkowski dot with itself. 
 
@@ -103,13 +103,13 @@ Return the squared invariant mass of a given four-momentum, i.e. the minkowski d
 
 
 """
-@inline function invariant_mass2(::EXYZ, mom)
+@inline function mass2(::EXYZ, mom)
     return energy(mom)^2 - px(mom)^2 - py(mom)^2 - pz(mom)^2
 end
 
 """
 
-    invariant_mass(::EXYZ,mom)
+    mass(::EXYZ,mom)
 
 Return the the invariant mass of a given four-momentum, i.e. the square root of the minkowski dot with itself. 
 
@@ -123,8 +123,8 @@ Return the the invariant mass of a given four-momentum, i.e. the square root of 
     If the squared invariant mass `m2` is negative, `-sqrt(-m2)` is returned. 
 
 """
-@inline function invariant_mass(cs::EXYZ, mom)
-    m2 = invariant_mass2(mom)
+@inline function mass(::EXYZ, mom)
+    m2 = mass2(mom)
     if m2 < zero(m2)
         # Think about including this waring, maybe optional with a global PRINT_WARINGS switch.
         #@warn("The square of the invariant mass (m2=P*P) is negative. The value -sqrt(-m2) is returned.")
@@ -181,7 +181,7 @@ end
 ########################
 """
 
-    transverse_momentum2(::EXYZ,mom)
+    pt2(::EXYZ,mom)
 
 Return the squared transverse momentum for a given four-momentum, i.e. the sum of its squared 1- and 2-component.
 
@@ -194,13 +194,13 @@ Return the squared transverse momentum for a given four-momentum, i.e. the sum o
     The transverse components are defined w.r.t. to the 3-axis. 
 
 """
-@inline function transverse_momentum2(::EXYZ, mom)
+@inline function pt2(::EXYZ, mom)
     return px(mom)^2 + py(mom)^2
 end
 
 """
 
-    transverse_momentum(::EXYZ, mom)
+    pt(::EXYZ, mom)
 
 Return the transverse momentum for a given four-momentum, i.e. the spatial_magnitude of its transverse components.
 
@@ -214,13 +214,13 @@ Return the transverse momentum for a given four-momentum, i.e. the spatial_magni
     The transverse components are defined w.r.t. to the 3-axis. 
 
 """
-@inline function transverse_momentum(::EXYZ, mom)
-    return sqrt(transverse_momentum2(mom))
+@inline function pt(::EXYZ, mom)
+    return sqrt(pt2(mom))
 end
 
 """
 
-    transverse_mass2(::EXYZ, mom)
+    mt2(::EXYZ, mom)
 
 Return the squared transverse mass for a given four-momentum, i.e. the difference of its squared 0- and 3-component.
 
@@ -235,13 +235,13 @@ Return the squared transverse mass for a given four-momentum, i.e. the differenc
 
 
 """
-@inline function transverse_mass2(::EXYZ, mom)
+@inline function mt2(::EXYZ, mom)
     return energy(mom)^2 - pz(mom)^2
 end
 
 """
 
-    transverse_mass(::EXYZ,mom)
+    mt(::EXYZ,mom)
 
 Return the transverse momentum for a given four-momentum, i.e. the square root of its squared transverse mass.
 
@@ -259,8 +259,8 @@ Return the transverse momentum for a given four-momentum, i.e. the square root o
     If the squared transverse mass `mt2` is negative, `-sqrt(-mt2)` is returned.
 
 """
-function transverse_mass(::EXYZ, mom)
-    mT2 = transverse_mass2(mom)
+function mt(::EXYZ, mom)
+    mT2 = mt2(mom)
     if mT2 < zero(mT2)
         # add optional waring: negative transverse mass -> -sqrt(-mT2) is returned.
         -sqrt(-mT2)
@@ -292,11 +292,11 @@ Return the [rapidity](https://en.wikipedia.org/wiki/Rapidity) for a given four-m
 end
 
 """
-    pseudorapidity(::EXYZ, mom)
+    eta(::EXYZ, mom)
 
 TBW
 """
-function pseudorapidity(::EXYZ, mom)
+function eta(::EXYZ, mom)
     cth = cos_theta(mom)
 
     if cth^2 < one(cth)
@@ -308,7 +308,7 @@ function pseudorapidity(::EXYZ, mom)
         return zero(z)
     end
 
-    @warn "Pseudorapidity: transverse momentum is zero! return +/- 10e10"
+    @warn "Pseudorapidity (η): transverse momentum is zero! return +/- 10e10"
     if z > zero(z)
         return 10e10
     end
@@ -364,7 +364,7 @@ end
 
 """
 
-    azimuthal_angle(::EXYZ, mom)
+    phi(::EXYZ, mom)
 
 Return the phi angle for a given four-momentum, i.e. the azimuthal angle of its spatial components in [spherical coordinates](https://en.wikipedia.org/wiki/Spherical_coordinate_system).
 
@@ -377,7 +377,7 @@ Return the phi angle for a given four-momentum, i.e. the azimuthal angle of its 
     The [spherical coordinates](https://en.wikipedia.org/wiki/Spherical_coordinate_system) are defined w.r.t. to the 3-axis. 
 
 """
-function azimuthal_angle(::EXYZ, mom)
+function phi(::EXYZ, mom)
     xcomp = px(mom)
     ycomp = py(mom)
     return iszero(xcomp) && iszero(ycomp) ? zero(xcomp) : atan(ycomp, xcomp)
