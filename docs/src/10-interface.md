@@ -76,3 +76,4 @@ The type can *optionnally* be a subtype of the LorentzVectorBase.LorentzVectorBa
 
 ---
 ¹x⋅y = LinearAlgebra.dot(x,y)
+
