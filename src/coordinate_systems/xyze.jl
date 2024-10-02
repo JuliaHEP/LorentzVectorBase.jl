@@ -55,7 +55,7 @@ function pz end
     
     magnitude2(::XYZE, mom)
 
-Return the square of the magnitude of a given four-momentum, i.e. the sum of the squared spatial components. 
+Return the square of the spatial_magnitude of a given four-momentum, i.e. the sum of the squared spatial components. 
 
 !!! example 
 
@@ -75,7 +75,7 @@ end
 
     magnitude(::XYZE,mom)
 
-Return the magnitude of a given four-momentum, i.e. the euklidian norm spatial components. 
+Return the spatial_magnitude of a given four-momentum, i.e. the euklidian norm spatial components. 
 
 !!! example 
 
@@ -138,7 +138,7 @@ end
 
     boost_beta(::XYZE, mom )
 
-Return magnitude of the beta vector for a given four-momentum, i.e. the magnitude of the four-momentum divided by its 0-component.
+Return spatial_magnitude of the beta vector for a given four-momentum, i.e. the spatial_magnitude of the four-momentum divided by its 0-component.
 
 !!! example
 
@@ -147,7 +147,7 @@ Return magnitude of the beta vector for a given four-momentum, i.e. the magnitud
 """
 @inline function boost_beta(::XYZE, mom)
     en = energy(mom)
-    rho = magnitude(mom)
+    rho = spatial_magnitude(mom)
     if !iszero(en)
         rho / en
     elseif iszero(rho)
@@ -202,7 +202,7 @@ end
 
     transverse_momentum(::XYZE, mom)
 
-Return the transverse momentum for a given four-momentum, i.e. the magnitude of its transverse components.
+Return the transverse momentum for a given four-momentum, i.e. the spatial_magnitude of its transverse components.
 
 !!! example
 
@@ -327,7 +327,7 @@ Return the theta angle for a given four-momentum, i.e. the polar angle of its sp
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum with magnitude `rho`, this is equivalent to `arccos(pz/rho)`, which is also equivalent to `arctan(sqrt(px^2+py^2)/pz)`.
+    If `(E,px,py,pz)` is a four-momentum with spatial_magnitude `rho`, this is equivalent to `arccos(pz/rho)`, which is also equivalent to `arctan(sqrt(px^2+py^2)/pz)`.
 
 !!! note
 
