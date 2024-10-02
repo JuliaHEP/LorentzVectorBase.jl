@@ -12,7 +12,7 @@ struct CustomMom
     z
 end
 
-LorentzVectorBase.coordinate_system(::CustomMom) = FourMomentumBase.EXYZ()
+LorentzVectorBase.coordinate_system(::CustomMom) = LorentzVectorBase.EXYZ()
 LorentzVectorBase.px(mom::CustomMom) = mom.x
 LorentzVectorBase.py(mom::CustomMom) = mom.y
 LorentzVectorBase.pz(mom::CustomMom) = mom.z
@@ -86,13 +86,13 @@ end
 
 @testset "spherical coordiantes consistence" for mom_on in [mom_onshell, mom_zero]
     @test isapprox(
-        LorentzVectorBase.cos_theta(mom_on), cos(FourMomentumBase.polar_angle(mom_on))
+        LorentzVectorBase.cos_theta(mom_on), cos(LorentzVectorBase.polar_angle(mom_on))
     )
     @test isapprox(
-        LorentzVectorBase.cos_phi(mom_on), cos(FourMomentumBase.phi(mom_on))
+        LorentzVectorBase.cos_phi(mom_on), cos(LorentzVectorBase.phi(mom_on))
     )
     @test isapprox(
-        LorentzVectorBase.sin_phi(mom_on), sin(FourMomentumBase.phi(mom_on))
+        LorentzVectorBase.sin_phi(mom_on), sin(LorentzVectorBase.phi(mom_on))
     )
 end
 
