@@ -1,4 +1,4 @@
-module FourMomentumBase
+module LorentzVectorBase
 
 export coordinate_system, coordinate_names
 
