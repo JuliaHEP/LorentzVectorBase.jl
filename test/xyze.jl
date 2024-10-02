@@ -6,13 +6,13 @@ const ATOL = 1e-15
 const RNG = MersenneTwister(137137)
 
 struct CustomMom
-    e
     x
     y
     z
+    e
 end
 
-FourMomentumBase.coordinate_system(::CustomMom) = FourMomentumBase.EXYZ()
+FourMomentumBase.coordinate_system(::CustomMom) = FourMomentumBase.XYZE()
 FourMomentumBase.px(mom::CustomMom) = mom.x
 FourMomentumBase.py(mom::CustomMom) = mom.y
 FourMomentumBase.pz(mom::CustomMom) = mom.z
@@ -21,9 +21,9 @@ FourMomentumBase.energy(mom::CustomMom) = mom.e
 x, y, z = rand(RNG, 3)
 m = rand(RNG)
 E = sqrt(x^2 + y^2 + z^2 + m^2)
-mom_onshell = CustomMom(E, x, y, z)
+mom_onshell = CustomMom(x, y, z, E)
 mom_zero = CustomMom(0.0, 0.0, 0.0, 0.0)
-mom_offshell = CustomMom(0.0, 0.0, 0.0, m)
+mom_offshell = CustomMom(0.0, 0.0, 1.0, 0.0)
 
 @testset "magnitude consistence" for mom in [mom_onshell, mom_offshell, mom_zero]
     @test FourMomentumBase.magnitude2(mom) == FourMomentumBase.mag2(mom)
@@ -52,7 +52,7 @@ end
     )
 
     @test isapprox(FourMomentumBase.invariant_mass(mom_onshell), m)
-    @test isapprox(FourMomentumBase.invariant_mass(mom_offshell), -m)
+    @test isapprox(FourMomentumBase.invariant_mass(mom_offshell), -1.0)
     @test isapprox(FourMomentumBase.invariant_mass(mom_zero), 0.0)
 end
 
@@ -97,7 +97,7 @@ end
     @test isapprox(FourMomentumBase.transverse_momentum(mom_onshell), sqrt(x^2 + y^2))
     @test isapprox(FourMomentumBase.transverse_mass2(mom_onshell), E^2 - z^2)
     @test isapprox(FourMomentumBase.transverse_mass(mom_onshell), sqrt(E^2 - z^2))
-    @test isapprox(FourMomentumBase.transverse_mass(mom_offshell), -m)
+    @test isapprox(FourMomentumBase.transverse_mass(mom_offshell), -1.0)
 
     @test isapprox(FourMomentumBase.rapidity(mom_onshell), 0.5 * log((E + z) / (E - z)))
 
