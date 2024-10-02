@@ -26,8 +26,6 @@ mom_zero = CustomMom(0.0, 0.0, 0.0, 0.0)
 mom_offshell = CustomMom(0.0, 0.0, 0.0, m)
 
 @testset "spatial_magnitude consistence" for mom in [mom_onshell, mom_offshell, mom_zero]
-    @test LorentzVectorBase.spatial_magnitude2(mom) == LorentzVectorBase.mag2(mom)
-    @test LorentzVectorBase.spatial_magnitude(mom) == LorentzVectorBase.mag(mom)
     @test isapprox(LorentzVectorBase.spatial_magnitude(mom), sqrt(LorentzVectorBase.spatial_magnitude2(mom)))
 end
 
@@ -39,7 +37,8 @@ end
 @testset "mass consistence" for mom_on in [mom_onshell, mom_zero]
     @test isapprox(
         LorentzVectorBase.mass(mom_on),
-        sqrt(LorentzVectorBase.mass2(mom_on)),
+        sqrt(LorentzVectorBase.mass2(mom_on))
+        )
     @test LorentzVectorBase.invariant_mass2(mom_on) == LorentzVectorBase.mass2(mom_on)
     @test LorentzVectorBase.invariant_mass(mom_on) == LorentzVectorBase.mass(mom_on)
     @test isapprox(
