@@ -1,6 +1,6 @@
 """
 
-    XYZE <: AbstractCoordinateSystem  
+    XYZE <: AbstractCoordinateSystem
 
 Cartesian coordinate system for four-momenta. Using this requires the implementation of the following interface functions:
 
@@ -52,12 +52,12 @@ function pz end
 ####
 
 """
-    
+
     spatial_magnitude2(::XYZE, mom)
 
-Return the square of the spatial_magnitude of a given four-momentum, i.e. the sum of the squared spatial components. 
+Return the square of the spatial_magnitude of a given four-momentum, i.e. the sum of the squared spatial components.
 
-!!! example 
+!!! example
 
     If `(E,px,py,pz)` is a four-momentum, this is equivalent to `px^2+ py^2 + pz^2`.
 
@@ -75,9 +75,9 @@ end
 
     spatial_magnitude(::XYZE,mom)
 
-Return the spatial_magnitude of a given four-momentum, i.e. the euklidian norm spatial components. 
+Return the spatial_magnitude of a given four-momentum, i.e. the euklidian norm spatial components.
 
-!!! example 
+!!! example
 
     If `(E,px,py,pz)` is a four-momentum, this is equivalent to `sqrt(px^2 + py^2 + pz^2)`.
 
@@ -95,11 +95,11 @@ end
 
     mass2(::XYZE,mom)
 
-Return the squared invariant mass of a given four-momentum, i.e. the minkowski dot with itself. 
+Return the squared invariant mass of a given four-momentum, i.e. the minkowski dot with itself.
 
-!!! example 
+!!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `E^2 - (px^2 + py^2 + pz^2)`. 
+    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `E^2 - (px^2 + py^2 + pz^2)`.
 
 
 """
@@ -111,16 +111,16 @@ end
 
     mass(::XYZE,mom)
 
-Return the the invariant mass of a given four-momentum, i.e. the square root of the minkowski dot with itself. 
+Return the the invariant mass of a given four-momentum, i.e. the square root of the minkowski dot with itself.
 
-!!! example 
+!!! example
 
     If `(E,px,py,pz)` is a four-momentum, this is equivalent to `sqrt(E^2 - (px^2 + py^2 + pz^2))`.
 
 
 !!! note
-    
-    If the squared invariant mass `m2` is negative, `-sqrt(-m2)` is returned. 
+
+    If the squared invariant mass `m2` is negative, `-sqrt(-m2)` is returned.
 
 """
 @inline function mass(::XYZE, mom)
@@ -191,7 +191,7 @@ Return the squared transverse momentum for a given four-momentum, i.e. the sum o
 
 !!! note
 
-    The transverse components are defined w.r.t. to the 3-axis. 
+    The transverse components are defined w.r.t. to the 3-axis.
 
 """
 @inline function pt2(::XYZE, mom)
@@ -211,7 +211,7 @@ Return the transverse momentum for a given four-momentum, i.e. the spatial_magni
 
 !!! note
 
-    The transverse components are defined w.r.t. to the 3-axis. 
+    The transverse components are defined w.r.t. to the 3-axis.
 
 """
 @inline function pt(::XYZE, mom)
@@ -231,7 +231,7 @@ Return the squared transverse mass for a given four-momentum, i.e. the differenc
 
 !!! note
 
-    The transverse components are defined w.r.t. to the 3-axis. 
+    The transverse components are defined w.r.t. to the 3-axis.
 
 
 """
@@ -252,7 +252,7 @@ Return the transverse momentum for a given four-momentum, i.e. the square root o
 
 !!! note
 
-    The transverse components are defined w.r.t. to the 3-axis. 
+    The transverse components are defined w.r.t. to the 3-axis.
 
 !!! note
 
@@ -282,7 +282,7 @@ Return the [rapidity](https://en.wikipedia.org/wiki/Rapidity) for a given four-m
 
 !!! note
 
-    The transverse components are defined w.r.t. to the 3-axis. 
+    The transverse components are defined w.r.t. to the 3-axis.
 
 """
 @inline function rapidity(::XYZE, mom)
@@ -331,7 +331,7 @@ Return the theta angle for a given four-momentum, i.e. the polar angle of its sp
 
 !!! note
 
-    The [spherical coordinates](https://en.wikipedia.org/wiki/Spherical_coordinate_system) are defined w.r.t. to the 3-axis. 
+    The [spherical coordinates](https://en.wikipedia.org/wiki/Spherical_coordinate_system) are defined w.r.t. to the 3-axis.
 
 """
 @inline function polar_angle(::XYZE, mom)
@@ -350,9 +350,9 @@ end
 
     cos_theta(::XYZE, mom)
 
-Return the cosine of the theta angle for a given four-momentum. 
+Return the cosine of the theta angle for a given four-momentum.
 
-!!! note 
+!!! note
 
     This is an equivalent but faster version of `cos(polar_angle(::XYZE, mom))`; see [`polar_angle`](@ref).
 
@@ -374,7 +374,7 @@ Return the phi angle for a given four-momentum, i.e. the azimuthal angle of its 
 
 !!! note
 
-    The [spherical coordinates](https://en.wikipedia.org/wiki/Spherical_coordinate_system) are defined w.r.t. to the 3-axis. 
+    The [spherical coordinates](https://en.wikipedia.org/wiki/Spherical_coordinate_system) are defined w.r.t. to the 3-axis.
 
 """
 function phi(::XYZE, mom)
@@ -387,11 +387,11 @@ end
 
     cos_phi(::XYZE, mom)
 
-Return the cosine of the azimuthal angle for a given four-momentum. 
+Return the cosine of the azimuthal angle for a given four-momentum.
 
-!!! note 
+!!! note
 
-    This is an equivalent but faster version of `cos(azimuthal_angle(mom))`; see [`azimuthal_angle`](@ref).
+    This is an equivalent but faster version of `cos(azimuthal_angle(mom))`; see [`phi`](@ref).
 
 """
 function cos_phi(::XYZE, mom)
@@ -403,11 +403,11 @@ end
 
     sin_phi(::XYZE,mom)
 
-Return the sine of the azimuthal angle for a given four-momentum. 
+Return the sine of the azimuthal angle for a given four-momentum.
 
-!!! note 
+!!! note
 
-    This is an equivalent but faster version of `sin(azimuthal_angle(mom))`; see [`azimuthal_angle`](@ref).
+    This is an equivalent but faster version of `sin(azimuthal_angle(mom))`; see [`phi`](@ref).
 
 """
 function sin_phi(::XYZE, mom)
@@ -431,7 +431,7 @@ Return the plus component for a given four-momentum in [light-cone coordinates](
 !!! note
 
     The [light-cone coordinates](https://en.wikipedia.org/wiki/Light-cone_coordinates) are defined w.r.t. to the 3-axis.
-    
+
 !!! warning
 
     The definition ``p^+ := (E + p_z)/2` differs from the usual definition of [light-cone coordinates](https://en.wikipedia.org/wiki/Light-cone_coordinates) in general relativity.
@@ -454,7 +454,7 @@ Return the minus component for a given four-momentum in [light-cone coordinates]
 !!! note
 
     The [light-cone coordinates](https://en.wikipedia.org/wiki/Light-cone_coordinates) are defined w.r.t. to the 3-axis.
-    
+
 !!! warning
 
     The definition ``p^- := (E - p_z)/2` differs from the usual definition of [light-cone coordinates](https://en.wikipedia.org/wiki/Light-cone_coordinates) in general relativity.

@@ -26,7 +26,10 @@ mom_zero = CustomMom(0.0, 0.0, 0.0, 0.0)
 mom_offshell = CustomMom(0.0, 0.0, m, 0.0)
 
 @testset "spatial_magnitude consistence" for mom in [mom_onshell, mom_offshell, mom_zero]
-    @test isapprox(LorentzVectorBase.spatial_magnitude(mom), sqrt(LorentzVectorBase.spatial_magnitude2(mom)))
+    @test isapprox(
+        LorentzVectorBase.spatial_magnitude(mom),
+        sqrt(LorentzVectorBase.spatial_magnitude2(mom)),
+    )
 end
 
 @testset "spatial_magnitude values" begin
@@ -35,10 +38,7 @@ end
 end
 
 @testset "mass consistence" for mom_on in [mom_onshell, mom_zero]
-    @test isapprox(
-        LorentzVectorBase.mass(mom_on),
-        sqrt(LorentzVectorBase.mass2(mom_on))
-        )
+    @test isapprox(LorentzVectorBase.mass(mom_on), sqrt(LorentzVectorBase.mass2(mom_on)))
     @test LorentzVectorBase.invariant_mass2(mom_on) == LorentzVectorBase.mass2(mom_on)
     @test LorentzVectorBase.invariant_mass(mom_on) == LorentzVectorBase.mass(mom_on)
     @test isapprox(
@@ -49,9 +49,7 @@ end
 
 @testset "mass value" begin
     @test isapprox(LorentzVectorBase.mass2(mom_onshell), E^2 - (x^2 + y^2 + z^2))
-    @test isapprox(
-        LorentzVectorBase.mass(mom_onshell), sqrt(E^2 - (x^2 + y^2 + z^2))
-    )
+    @test isapprox(LorentzVectorBase.mass(mom_onshell), sqrt(E^2 - (x^2 + y^2 + z^2)))
 
     @test isapprox(LorentzVectorBase.mass(mom_onshell), m)
     @test isapprox(LorentzVectorBase.mass(mom_offshell), -m)
@@ -97,12 +95,8 @@ end
     @test isapprox(
         LorentzVectorBase.cos_theta(mom_on), cos(LorentzVectorBase.polar_angle(mom_on))
     )
-    @test isapprox(
-        LorentzVectorBase.cos_phi(mom_on), cos(LorentzVectorBase.phi(mom_on))
-    )
-    @test isapprox(
-        LorentzVectorBase.sin_phi(mom_on), sin(LorentzVectorBase.phi(mom_on))
-    )
+    @test isapprox(LorentzVectorBase.cos_phi(mom_on), cos(LorentzVectorBase.phi(mom_on)))
+    @test isapprox(LorentzVectorBase.sin_phi(mom_on), sin(LorentzVectorBase.phi(mom_on)))
 end
 
 @testset "spherical coordiantes values" begin

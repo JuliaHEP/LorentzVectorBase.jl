@@ -4,11 +4,6 @@ CurrentModule = LorentzVectorBase
 
 # LorentzVectorBase
 
-Documentation for [LorentzVectorBase](https://github.com/szabo137/LorentzVectorBase.jl).
+Documentation for [LorentzVectorBase](https://github.com/JuliaHEP/LorentzVectorBase.jl).
 
-```@index
-```
 
-```@autodocs
-Modules = [LorentzVectorBase]
-```
