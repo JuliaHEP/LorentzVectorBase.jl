@@ -1,13 +1,11 @@
 ```@meta
-CurrentModule = FourMomentumBase
+CurrentModule = LorentzVectorBase
 ```
 
-# FourMomentumBase
+# LorentzVectorBase
 
-Documentation for [FourMomentumBase](https://github.com/szabo137/FourMomentumBase.jl).
+Documentation for [LorentzVectorBase](https://github.com/JuliaHEP/LorentzVectorBase.jl).
 
-```@index
-```
 
 ```@autodocs
 Modules = [FourMomentumBase]
@@ -74,3 +72,5 @@ The methods that returns the coordinates of the prefered system (returned by `co
 | `LorentzVectorBase.mass2(::MyType{MyLorentzVector})`              | mass to the square |
 | `LorentzVectorBase.spatial_magnitude2(::MyType{MyLorentzVector})` | mass to the square |
 | Any of the above method i.e, a method of option Y when methods of option X are provided || 
+=======
+>>>>>>> origin/main
