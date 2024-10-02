@@ -53,9 +53,9 @@ function pz end
 
 """
     
-    magnitude2(::EXYZ, mom)
+    spatial_magnitude2(::EXYZ, mom)
 
-Return the square of the magnitude of a given four-momentum, i.e. the sum of the squared spatial components. 
+Return the square of the spatial_magnitude of a given four-momentum, i.e. the sum of the squared spatial components. 
 
 !!! example 
 
@@ -67,15 +67,15 @@ Return the square of the magnitude of a given four-momentum, i.e. the sum of the
     This function differs from a similar function for the `TLorentzVector` used in the famous `ROOT` library.
 
 """
-@inline function magnitude2(::EXYZ, mom)
+@inline function spatial_magnitude2(::EXYZ, mom)
     return px(mom)^2 + py(mom)^2 + pz(mom)^2
 end
 
 """
 
-    magnitude(::EXYZ,mom)
+    spatial_magnitude(::EXYZ,mom)
 
-Return the magnitude of a given four-momentum, i.e. the euklidian norm spatial components. 
+Return the spatial_magnitude of a given four-momentum, i.e. the euklidian norm spatial components. 
 
 !!! example 
 
@@ -87,8 +87,8 @@ Return the magnitude of a given four-momentum, i.e. the euklidian norm spatial c
     This function differs from a similar function for the `TLorentzVector` used in the famous `ROOT` library.
 
 """
-@inline function magnitude(cs::EXYZ, mom)
-    return sqrt(magnitude2(mom))
+@inline function spatial_magnitude(cs::EXYZ, mom)
+    return sqrt(spatial_magnitude2(mom))
 end
 
 """
@@ -138,7 +138,7 @@ end
 
     boost_beta(::EXYZ, mom )
 
-Return magnitude of the beta vector for a given four-momentum, i.e. the magnitude of the four-momentum divided by its 0-component.
+Return spatial_magnitude of the beta vector for a given four-momentum, i.e. the spatial_magnitude of the four-momentum divided by its 0-component.
 
 !!! example
 
@@ -147,7 +147,7 @@ Return magnitude of the beta vector for a given four-momentum, i.e. the magnitud
 """
 @inline function boost_beta(::EXYZ, mom)
     en = energy(mom)
-    rho = magnitude(mom)
+    rho = spatial_magnitude(mom)
     if !iszero(en)
         rho / en
     elseif iszero(rho)
@@ -202,7 +202,7 @@ end
 
     transverse_momentum(::EXYZ, mom)
 
-Return the transverse momentum for a given four-momentum, i.e. the magnitude of its transverse components.
+Return the transverse momentum for a given four-momentum, i.e. the spatial_magnitude of its transverse components.
 
 !!! example
 
@@ -327,7 +327,7 @@ Return the theta angle for a given four-momentum, i.e. the polar angle of its sp
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum with magnitude `rho`, this is equivalent to `arccos(pz/rho)`, which is also equivalent to `arctan(sqrt(px^2+py^2)/pz)`.
+    If `(E,px,py,pz)` is a four-momentum with spatial_magnitude `rho`, this is equivalent to `arccos(pz/rho)`, which is also equivalent to `arctan(sqrt(px^2+py^2)/pz)`.
 
 !!! note
 
@@ -358,7 +358,7 @@ Return the cosine of the theta angle for a given four-momentum.
 
 """
 @inline function cos_theta(::EXYZ, mom)
-    r = magnitude(mom)
+    r = spatial_magnitude(mom)
     return iszero(r) ? one(px(mom)) : pz(mom) / r
 end
 

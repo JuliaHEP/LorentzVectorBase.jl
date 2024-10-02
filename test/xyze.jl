@@ -25,15 +25,15 @@ mom_onshell = CustomMom(E, x, y, z)
 mom_zero = CustomMom(0.0, 0.0, 0.0, 0.0)
 mom_offshell = CustomMom(0.0, 0.0, 0.0, m)
 
-@testset "magnitude consistence" for mom in [mom_onshell, mom_offshell, mom_zero]
-    @test FourMomentumBase.magnitude2(mom) == FourMomentumBase.mag2(mom)
-    @test FourMomentumBase.magnitude(mom) == FourMomentumBase.mag(mom)
-    @test isapprox(FourMomentumBase.magnitude(mom), sqrt(FourMomentumBase.magnitude2(mom)))
+@testset "spatial_magnitude consistence" for mom in [mom_onshell, mom_offshell, mom_zero]
+    @test FourMomentumBase.spatial_magnitude2(mom) == FourMomentumBase.mag2(mom)
+    @test FourMomentumBase.spatial_magnitude(mom) == FourMomentumBase.mag(mom)
+    @test isapprox(FourMomentumBase.spatial_magnitude(mom), sqrt(FourMomentumBase.spatial_magnitude2(mom)))
 end
 
-@testset "magnitude values" begin
-    @test isapprox(FourMomentumBase.magnitude2(mom_onshell), x^2 + y^2 + z^2)
-    @test isapprox(FourMomentumBase.magnitude(mom_onshell), sqrt(x^2 + y^2 + z^2))
+@testset "spatial_magnitude values" begin
+    @test isapprox(FourMomentumBase.spatial_magnitude2(mom_onshell), x^2 + y^2 + z^2)
+    @test isapprox(FourMomentumBase.spatial_magnitude(mom_onshell), sqrt(x^2 + y^2 + z^2))
 end
 
 @testset "mass consistence" for mom_on in [mom_onshell, mom_zero]
