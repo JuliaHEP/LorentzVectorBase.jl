@@ -59,7 +59,7 @@ Return the square of the spatial_magnitude of a given four-momentum, i.e. the su
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `px^2+ py^2 + pz^2`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `px^2+ py^2 + pz^2`.
 
 
 !!! warning
@@ -79,7 +79,7 @@ Return the spatial_magnitude of a given four-momentum, i.e. the euklidian norm s
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `sqrt(px^2 + py^2 + pz^2)`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `sqrt(px^2 + py^2 + pz^2)`.
 
 
 !!! warning
@@ -99,7 +99,7 @@ Return the squared invariant mass of a given four-momentum, i.e. the minkowski d
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `E^2 - (px^2 + py^2 + pz^2)`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `E^2 - (px^2 + py^2 + pz^2)`.
 
 
 """
@@ -115,7 +115,7 @@ Return the the invariant mass of a given four-momentum, i.e. the square root of 
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `sqrt(E^2 - (px^2 + py^2 + pz^2))`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `sqrt(E^2 - (px^2 + py^2 + pz^2))`.
 
 
 !!! note
@@ -142,7 +142,7 @@ Return spatial_magnitude of the beta vector for a given four-momentum, i.e. the 
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `sqrt(px^2 + py^2 + pz^2)/E`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `sqrt(px^2 + py^2 + pz^2)/E`.
 
 """
 @inline function boost_beta(::XYZE, mom)
@@ -169,7 +169,7 @@ Return the relativistic gamma factor for a given four-momentum, i.e. the inverse
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum with beta vector `β`, this is equivalent to `1/sqrt(1- β^2)`.
+    If `(px,py,pz,E)` is a four-momentum with beta vector `β`, this is equivalent to `1/sqrt(1- β^2)`.
 
 """
 @inline function boost_gamma(::XYZE, mom)
@@ -187,7 +187,7 @@ Return the squared transverse momentum for a given four-momentum, i.e. the sum o
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `px^2 + py^2`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `px^2 + py^2`.
 
 !!! note
 
@@ -206,7 +206,7 @@ Return the transverse momentum for a given four-momentum, i.e. the spatial_magni
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `sqrt(px^2 + py^2)`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `sqrt(px^2 + py^2)`.
 
 
 !!! note
@@ -226,7 +226,7 @@ Return the squared transverse mass for a given four-momentum, i.e. the differenc
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `E^2 - pz^2`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `E^2 - pz^2`.
 
 
 !!! note
@@ -247,7 +247,7 @@ Return the transverse momentum for a given four-momentum, i.e. the square root o
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `sqrt(E^2 - pz^2)`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `sqrt(E^2 - pz^2)`.
 
 
 !!! note
@@ -277,7 +277,7 @@ Return the [rapidity](https://en.wikipedia.org/wiki/Rapidity) for a given four-m
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `0.5*log((E+pz)/(E-pz))`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `0.5*log((E+pz)/(E-pz))`.
 
 
 !!! note
@@ -327,7 +327,7 @@ Return the theta angle for a given four-momentum, i.e. the polar angle of its sp
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum with spatial_magnitude `rho`, this is equivalent to `arccos(pz/rho)`, which is also equivalent to `arctan(sqrt(px^2+py^2)/pz)`.
+    If `(px,py,pz,E)` is a four-momentum with spatial_magnitude `rho`, this is equivalent to `arccos(pz/rho)`, which is also equivalent to `arctan(sqrt(px^2+py^2)/pz)`.
 
 !!! note
 
@@ -370,7 +370,7 @@ Return the phi angle for a given four-momentum, i.e. the azimuthal angle of its 
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `atan(py,px)`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `atan(py,px)`.
 
 !!! note
 
@@ -426,7 +426,7 @@ Return the plus component for a given four-momentum in [light-cone coordinates](
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `(E+pz)/2`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `(E+pz)/2`.
 
 !!! note
 
@@ -449,7 +449,7 @@ Return the minus component for a given four-momentum in [light-cone coordinates]
 
 !!! example
 
-    If `(E,px,py,pz)` is a four-momentum, this is equivalent to `(E-pz)/2`.
+    If `(px,py,pz,E)` is a four-momentum, this is equivalent to `(E-pz)/2`.
 
 !!! note
 
