@@ -15,8 +15,9 @@ makedocs(;
     sitename = "LorentzVectorBase.jl",
     format = Documenter.HTML(;
         canonical = "https://JuliaHEP.github.io/LorentzVectorBase.jl",
+        repolink = "https://github.com/JuliaHEP/LorentzVectorBase.jl"
         edit_link="main",
-        assets=String[],
+        assets=String[]
     ),
     pages = ["index.md"; numbered_pages],
 )
