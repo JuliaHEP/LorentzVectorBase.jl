@@ -15,7 +15,6 @@ mass(::CustomFourMomentum)
 struct PtEtaPhiM <: AbstractCoordinateSystem end
 coordinate_names(::PtEtaPhiM) = (:pt, :eta, :phi, :energy)
 
-
 ####
 # derived components
 ####
@@ -25,11 +24,11 @@ py(::PtEtaPhiM, v) = pt(v) * sin(phi(v))
 pz(::PtEtaPhiM, v) = pt(v) * sinh(eta(v))
 
 function energy(::PtEtaPhiM, mom)
-    sqrt(px(mom)^2 + py(mom)^2 + pz(mom)^2 + invariant_mass2(mom))
+    return sqrt(px(mom)^2 + py(mom)^2 + pz(mom)^2 + invariant_mass2(mom))
 end
 
 @inline function spatial_magnitude2(::PtEtaPhiM, mom)
-    return pt(mom)^2 * (1+sinh(eta(mom))^2)
+    return pt(mom)^2 * (1 + sinh(eta(mom))^2)
 end
 
 @inline function spatial_magnitude(::PtEtaPhiM, mom)
@@ -37,7 +36,7 @@ end
 end
 
 @inline function mass2(::PtEtaPhiM, mom)
-    mass(mom)^2
+    return mass(mom)^2
 end
 
 @inline function boost_beta(::PtEtaPhiM, mom)
@@ -85,7 +84,7 @@ end
 @inline function rapidity(::PtEtaPhiM, mom)
     E = energy(mom)
     pz1 = pz(mom)
-    return 0.5*log((E+pz1)/(E-pz1))
+    return 0.5 * log((E + pz1) / (E - pz1))
 end
 
 #######################
