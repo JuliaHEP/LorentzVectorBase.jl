@@ -64,4 +64,15 @@ The methods that returns the coordinates of the prefered system (returned by `co
 | `LorentzVectorBase.spatial_magnitude2(::MyType{MyLorentzVector})` | mass to the square |
 | Any of the above method i.e, a method of option Y when methods of option X are provided ||
 
-=======
+## LorentzVectorBase
+
+The type can *optionnally* be a subtype of the LorentzVectorBase.LorentzVectorBase to benefit from default implementations of lorentz vector algebra.
+
+# Basic functions provided for subtypes of LorentzVectorBase
+
+- Base.+(::LorentzVectorBase, ::LorentzVectorBase)
+- Base.-(::LorentzVectorBase, ::LorentzVectorBase)
+- LinearAlgebra.dot(::LorentzVectorBase, ::LorentzVectorBase)¹
+
+---
+¹x⋅y = LinearAlgebra.dot(x,y)
