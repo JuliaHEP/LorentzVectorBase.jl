@@ -1,20 +1,20 @@
-using FourMomentumBase
+using LorentzVectorBase
 using Documenter
 
 DocMeta.setdocmeta!(
-    FourMomentumBase, :DocTestSetup, :(using FourMomentumBase); recursive=true
+    LorentzVectorBase, :DocTestSetup, :(using LorentzVectorBase); recursive=true
 )
 
 makedocs(;
-    modules=[FourMomentumBase],
+    modules=[LorentzVectorBase],
     authors="Uwe Hernandez Acosta <u.hernandez@hzdr.de",
-    sitename="FourMomentumBase.jl",
+    sitename="LorentzVectorBase.jl",
     format=Documenter.HTML(;
-        canonical="https://szabo137.github.io/FourMomentumBase.jl",
+        canonical="https://szabo137.github.io/LorentzVectorBase.jl",
         edit_link="main",
         assets=String[],
     ),
     pages=["Home" => "index.md"],
 )
 
-deploydocs(; repo="github.com/szabo137/FourMomentumBase.jl", devbranch="main")
+deploydocs(; repo="github.com/szabo137/LorentzVectorBase.jl", devbranch="main")
