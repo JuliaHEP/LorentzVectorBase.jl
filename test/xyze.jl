@@ -6,13 +6,13 @@ const ATOL = 1e-15
 const RNG = MersenneTwister(137137)
 
 struct CustomMom
-    e
     x
     y
     z
+    e
 end
 
-LorentzVectorBase.coordinate_system(::CustomMom) = LorentzVectorBase.EXYZ()
+LorentzVectorBase.coordinate_system(::CustomMom) = LorentzVectorBase.XYZE()
 LorentzVectorBase.px(mom::CustomMom) = mom.x
 LorentzVectorBase.py(mom::CustomMom) = mom.y
 LorentzVectorBase.pz(mom::CustomMom) = mom.z
@@ -21,9 +21,9 @@ LorentzVectorBase.energy(mom::CustomMom) = mom.e
 x, y, z = rand(RNG, 3)
 m = rand(RNG)
 E = sqrt(x^2 + y^2 + z^2 + m^2)
-mom_onshell = CustomMom(E, x, y, z)
+mom_onshell = CustomMom(x, y, z, E)
 mom_zero = CustomMom(0.0, 0.0, 0.0, 0.0)
-mom_offshell = CustomMom(0.0, 0.0, 0.0, m)
+mom_offshell = CustomMom(0.0, 0.0, m, 0.0)
 
 @testset "spatial_magnitude consistence" for mom in [mom_onshell, mom_offshell, mom_zero]
     @test isapprox(LorentzVectorBase.spatial_magnitude(mom), sqrt(LorentzVectorBase.spatial_magnitude2(mom)))
