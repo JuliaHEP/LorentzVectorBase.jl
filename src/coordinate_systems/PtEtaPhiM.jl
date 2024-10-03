@@ -93,7 +93,8 @@ end
 
 @inline function polar_angle(::PtEtaPhiM, mom)
     η = eta(mom)
-    return 2 * atan(exp(-η))
+    r = spatial_magnitude(mom)
+    return iszero(r) && iszero(pz(mom)) ? zero(pz(mom)) : 2* atan(exp(-η))
 end
 
 @inline function cos_theta(::PtEtaPhiM, mom)
