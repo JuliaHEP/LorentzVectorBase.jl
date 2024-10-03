@@ -13,7 +13,7 @@ mass(::CustomFourMomentum)
 
 """
 struct PtEtaPhiM <: AbstractCoordinateSystem end
-coordinate_names(::PtEtaPhiM) = (:pt, :eta, :phi, :energy)
+coordinate_names(::PtEtaPhiM) = (:pt, :eta, :phi, :mass)
 
 ####
 # derived components
