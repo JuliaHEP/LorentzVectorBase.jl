@@ -13,24 +13,22 @@ DocMeta.setdocmeta!(
 )
 
 pages = [
-    "Home" => "index.md",
-    "Interface" => "10-interface.md",
-    "Reference" => "95-reference.md"
+  "Home" => "index.md", "Interface" => "10-interface.md", "Reference" => "95-reference.md"
 ]
 
 makedocs(;
-    modules=[LorentzVectorBase],
-    authors="Uwe Hernandez Acosta <u.hernandez@hzdr.de>",
-    repo=Documenter.Remotes.GitHub("JuliaHEP", "LorentzVectorBase.jl"),
-    sitename="LorentzVectorBase.jl",
-    format=Documenter.HTML(;
-        prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://JuliaHEP.github.io/LorentzVectorBase.jl",
-       # repolink="https://github.com/JuliaHEP/LorentzVectorBase.jl",
-       # edit_link="main",
-        assets=String[],
-    ),
-    pages = pages,
+  modules=[LorentzVectorBase],
+  authors="Uwe Hernandez Acosta <u.hernandez@hzdr.de>",
+  repo=Documenter.Remotes.GitHub("JuliaHEP", "LorentzVectorBase.jl"),
+  sitename="LorentzVectorBase.jl",
+  format=Documenter.HTML(;
+    prettyurls=get(ENV, "CI", "false") == "true",
+    canonical="https://JuliaHEP.github.io/LorentzVectorBase.jl",
+    # repolink="https://github.com/JuliaHEP/LorentzVectorBase.jl",
+    # edit_link="main",
+    assets=String[],
+  ),
+  pages=pages,
 )
 
 deploydocs(; repo="github.com/JuliaHEP/LorentzVectorBase.jl", push_preview=true)
