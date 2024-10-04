@@ -8,7 +8,7 @@ begin
   end
 
   @time @safetestset "xyze" begin
-    include("xyze.jl")
+    include("XYZT.jl")
   end
 
   @time @safetestset "PtEtaPhiM" begin
