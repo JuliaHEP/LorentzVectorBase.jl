@@ -324,27 +324,18 @@ end
     polar_angle(::XYZE,mom)
 
 Return the theta angle for a given four-momentum, i.e. the polar angle of its spatial components in [spherical coordinates](https://en.wikipedia.org/wiki/Spherical_coordinate_system).
+The angle is defined in the range `[0,π]`.
 
 !!! example
 
-    If `(px,py,pz,E)` is a four-momentum with spatial_magnitude `rho`, this is equivalent to `arccos(pz/rho)`, which is also equivalent to `arctan(sqrt(px^2+py^2)/pz)`.
+    If `(px,py,pz,E)` is a four-momentum with spatial_magnitude `rho`, the function returns `arccos(pz/rho)`; see [`cos_theta`](@ref).
 
 !!! note
 
     The [spherical coordinates](https://en.wikipedia.org/wiki/Spherical_coordinate_system) are defined w.r.t. to the 3-axis.
 
 """
-@inline function polar_angle(::XYZE, mom)
-  xcomp = px(mom)
-  ycomp = py(mom)
-  zcomp = pz(mom)
-
-  return if iszero(xcomp) && iszero(ycomp) && iszero(zcomp)
-    zero(xcomp)
-  else
-    atan(transverse_momentum(mom), zcomp)
-  end
-end
+@inline polar_angle(::XYZE, mom) = acos(cos_theta(::XYZE, mom))
 
 """
 
