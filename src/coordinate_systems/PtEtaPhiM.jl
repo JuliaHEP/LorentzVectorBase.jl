@@ -91,7 +91,7 @@ end
 # spherical coordinates
 #######################
 
-@inline polar_angle(::PtEtaPhiM, mom) = acos(cos_theta(::PtEtaPhiM, mom))
+@inline polar_angle(::PtEtaPhiM, mom) = acos(cos_theta(mom))
 
 @inline function cos_theta(::PtEtaPhiM, mom)
   r = spatial_magnitude(mom)

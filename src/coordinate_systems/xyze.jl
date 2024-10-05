@@ -335,7 +335,7 @@ The angle is defined in the range `[0,π]`.
     The [spherical coordinates](https://en.wikipedia.org/wiki/Spherical_coordinate_system) are defined w.r.t. to the 3-axis.
 
 """
-@inline polar_angle(::XYZE, mom) = acos(cos_theta(::XYZE, mom))
+@inline polar_angle(c::XYZE, mom) = acos(cos_theta(mom))
 
 """
 
