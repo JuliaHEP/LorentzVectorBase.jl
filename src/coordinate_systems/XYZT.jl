@@ -24,8 +24,6 @@ coordinate_names(::XYZT) = (:x, :y, :z, :t)
 
 TBW
 """
-t
-
 function t end
 
 """
