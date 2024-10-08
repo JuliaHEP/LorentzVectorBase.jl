@@ -27,6 +27,7 @@ coordinate_names
 
 ```@docs
 XYZT
+PxPyPzE
 PtEtaPhiM
 ```
 
