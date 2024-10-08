@@ -10,4 +10,8 @@ begin
   @time @safetestset "xyze" begin
     include("xyze.jl")
   end
+
+  @time @safetestset "ptetaphim" begin
+    include("PtEtaPhiM.jl")
+  end
 end
