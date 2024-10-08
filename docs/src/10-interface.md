@@ -1,79 +1,88 @@
 # [Interface](@id interface)
 
-This section explains how the object can become a `LorentzVector`. 
+This section explains how an object can become a _object with kinematic informations_.
 
 ## Definition
 
-We will call _`LorentzVector`-compliant_, a type that fulfills our interface described in this section. The package that provides such a type will be called _the provider_.
+A type that adheres to the interface described in this section will be referred to as
+_`KinematicInterface`-compliant_. A package providing such a type will be called _the provider_.
 
-## Coordinate systems
+## Coordinate Systems
 
-The provider must specify a preferred coordinate system for its _`LorentzVector`-compliant_ type and provides  accesors to the components in this system with standardized methods (specified below). In case the object natively supports several coordinate systems, the one for which the component access is the most efficient will be chosen as the _preferred coordinate system_. It has to be one of the supported coordinate system.
+The provider must define a preferred coordinate system for its _`KinematicInterface`-compliant_
+type and provide accessors for the components of this system using standardized methods
+(outlined below). If the object natively supports multiple coordinate systems, the provider
+should choose the one in which component access is the most efficient as the _preferred
+coordinate system_. This system must be one of the supported options.
 
-The `LorentzVectorBase` package complements the component accessors to cover all the supported coordinate systems. It uses the components in the _preferred coordinate_ system to implement the complementary accessors. The Julia dispatch mechanism is used to give the preference to the accessors provided with the objet.
+The `LorentzVectorBase` package supplements these component accessors to cover all supported
+coordinate systems. It uses the components of the _preferred coordinate system_ to implement
+complementary accessors. Julia’s dispatch mechanism prioritizes the accessors provided by
+the object itself.
 
-📝 A `LorenztVector`-compliant type can include more data than the four-vector. E.g., a type describing an elementary particle can comply, while containing more data than the particle four-momentum.
+!!! note
+
+    A `KinematicInterface`-compliant type can store additional data beyond the four-vector. For instance,
+    a type representing an elementary particle may comply while containing more information than
+    just the particle’s four-momentum.
 
 ## Implementation
 
-A type `MyLorentzVector` will comply to the `LorentzVector` interface if one of the following set of methods is implemented.
+A type `MyLorentzVector` (which do not necessary need to be a vector) will comply with the `KinematicInterface` if it implements
+one of the following sets of methods:
 
-### Option 1: position with cartesian coordinates
+### Option 1: Position with Cartesian Coordinates
 
-| Required Methods                                             | Brief Description                               |
-|--------------------------------------------------------------|-------------------------------------------------|
-| `LorentzVectorBase.islorentzvector(::Type{MyLorentzVector})` | Declare that your type implements the interface |
-| `LorentzVectorBase.coordinatesystem(::Type{MyLorentzVector}) = LorentzVectorBase.XYZE`  | Declare the preferred coordinate system |
-| `LorentzVectorBase.x(::Tupe{MyLorentzVector})`               | x cartesian coordinate                          |
-| `LorentzVectorBase.y(::Tupe{MyLorentzVector})`               | y cartesian coordinate                          |
-| `LorentzVectorBase.z(::Tupe{MyLorentzVector})`               | z cartesian coordinate                          |
-| `LorentzVectorBase.t(::Tupe{MyLorentzVector})`               | t cartesian coordinate                          |
-|                                                              |                                                 |
+| Required Methods                                                                        | Brief Description                               |
+| --------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| `LorentzVectorBase.islorentzvector(::Type{MyLorentzVector})`                            | Declare that your type implements the interface |
+| `LorentzVectorBase.coordinate_system(::Type{MyLorentzVector}) = LorentzVectorBase.XYZE` | Declare the preferred coordinate system         |
+| `LorentzVectorBase.x(::MyLorentzVector)`                                                | X Cartesian coordinate                          |
+| `LorentzVectorBase.y(::MyLorentzVector)`                                                | Y Cartesian coordinate                          |
+| `LorentzVectorBase.z(::MyLorentzVector)`                                                | Z Cartesian coordinate                          |
+| `LorentzVectorBase.t(::MyLorentzVector)`                                                | Time coordinate (t)                             |
 
+### Option 2: Four-Momentum with Cartesian Coordinates
 
-### Option 2: four-momentum with catesian coordinates
+| Required Methods                                                                        | Brief Description                               |
+| --------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| `LorentzVectorBase.islorentzvector(::Type{MyLorentzVector})`                            | Declare that your type implements the interface |
+| `LorentzVectorBase.coordinate_system(::Type{MyLorentzVector}) = LorentzVectorBase.XYZE` | Declare the preferred coordinate system         |
+| `LorentzVectorBase.px(::MyLorentzVector)`                                               | Momentum X-component                            |
+| `LorentzVectorBase.py(::MyLorentzVector)`                                               | Momentum Y-component                            |
+| `LorentzVectorBase.pz(::MyLorentzVector)`                                               | Momentum Z-component                            |
+| `LorentzVectorBase.energy(::MyLorentzVector)`                                           | Energy                                          |
 
-| Required Methods                                             | Brief Description                               |
-|--------------------------------------------------------------|-------------------------------------------------|
-| `LorentzVectorBase.islorentzvector(::Type{MyLorentzVector})` | Declare that your type implements the interface |
-| `LorentzVectorBase.coordinatesystem(::Type{MyLorentzVector}) = LorentzVectorBase.XYZE`  | Declare the preferred coordinated system |
-| `LorentzVectorBase.px(::Tupe{MyLorentzVector})`              | momentum x-component                            |
-| `LorentzVectorBase.py(::Tupe{MyLorentzVector})`              | momentum y-component                            |
-| `LorentzVectorBase.pz(::Tupe{MyLorentzVector})`              | momentim z-component                            |
-| `LorentzVectorBase.energy(::Tupe{MyLorentzVector})`          | energy                                          |
+### Option 3: Four-Momentum with Cylindrical Coordinates
 
-### Option 3 four-momentum with cylindrical coordinates
+| Required Methods                                               | Brief Description                                                                                                                       |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `LorentzVectorBase.islorentzvector(::Type{MyLorentzVector})`   | Declare that your type implements the interface                                                                                         |
+| `LorentzVectorBase.coordinate_system(::Type{MyLorentzVector})` | Declare the preferred coordinate system, which must return `PtEtaPhiM`, `PtEtaPhiE`, `PtYPhiM`, or `PtYPhiE` (from `LorentzVectorBase`) |
+| `LorentzVectorBase.pt(::MyLorentzVector)`                      | Transverse momentum                                                                                                                     |
+| `LorentzVectorBase.phi(::MyLorentzVector)`                     | Azimuthal angle                                                                                                                         |
 
-| Required Methods                                             | Brief Description                               |
-|--------------------------------------------------------------|-------------------------------------------------|
-| `LorentzVectorBase.islorentzvector(::Type{MyLorentzVector})` | Declare that your type implements the interface |
-| `LorentzVectorBase.coordinatesystem(::Type{MyLorentzVector})`| Declare the preferred coordinated system. Must return PtEtaPhiM, PtEtaPhiE, PtYPhiM, or PtYPhiE (from LorentzVectorBase).|
-| `LorentzVectorBase.pt(::Tupe{MyLorentzVector})`              | transverse momemun                              |
-| `LorentzVectorBase.phi(::Tupe{MyLorentzVector})`             | azimuthal angle                                 |
+Additionally, you must implement _one_ of the following:
 
-<br>
-and *one of*
+| Required Method                                 | Description                                 |
+| ----------------------------------------------- | ------------------------------------------- |
+| `LorentzVectorBase.eta(::MyLorentzVector)`      | Pseudorapidity                              |
+| `LorentzVectorBase.rapidity(::MyLorentzVector)` | Rapidity relative to the beam axis (z-axis) |
 
-| &nbsp;  |  &nbsp; |
-|---|---|
-| `LorentzVectorBase.eta(::Tupe{MyLorentzVector})`             | pseudorapity                                    |
-| `LorentzVectorBase.rapidity(::Tupe{MyLorentzVector})`        | rapidity relative to the beam axis (z-axis)     |
+And _one_ of:
 
-<br>
-and *one of*
+| Required Method                               | Description    |
+| --------------------------------------------- | -------------- |
+| `LorentzVectorBase.energy(::MyLorentzVector)` | Energy         |
+| `LorentzVectorBase.mass(::MyLorentzVector)`   | Invariant mass |
 
-| &nbsp;  |  &nbsp; |
-|-|-|
-| `LorentzVectorBase.energy(::Tupe{MyLorentzVector})`          | energy          |
-| `LorentzVectorBase.mass(::Tupe{MyLorentzVector})`            | invariant mass  |
+The methods returning the coordinates of the preferred system (as specified by `coordinate_system()`) must be implemented.
 
-The methods that returns the coordinates of the preferred system (returned by `coordinate_system()`) must be implemented.
+## Optional Methods
 
-## Optional methods
+| Optional Method                              | Description                                  |
+| -------------------------------------------- | -------------------------------------------- |
+| `LorentzVectorBase.mass2(::MyLorentzVector)` | Square of the mass                           |
+| `LorentzVectorBase.rho2(::MyLorentzVector)`  | ρ² = \|**p**\|² (squared momentum magnitude) |
 
-| &nbsp;  |  &nbsp; |
-|-|-|
-| `LorentzVectorBase.mass2(::MyType{MyLorentzVector})`              | mass to the square |
-| `LorentzVectorBase.rho2(::MyType{MyLorentzVector})`               | ρ² = \|**p**\|²      |
-| Any of the above method i.e, a method of option Y when methods of option X are provided ||
-
+Additionally, any method from another option (i.e., a method from Option Y when methods from Option X are provided) may also be implemented.
