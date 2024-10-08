@@ -39,7 +39,6 @@ Return the pseudorapidity (η) of a given four-momentum `mom`.
 """
 eta
 
-
 ### Spherical Coordinates
 
 """

@@ -6,10 +6,10 @@ const ATOL = 1e-15
 const RNG = MersenneTwister(137137)
 
 struct CustomLVector
-    x
-    y
-    z
-    t
+  x
+  y
+  z
+  t
 end
 
 LorentzVectorBase.coordinate_system(::CustomLVector) = LorentzVectorBase.XYZT()
@@ -48,8 +48,8 @@ end
 end
 
 @testset "mass value" begin
-    @test isapprox(LorentzVectorBase.mass2(mom_onshell), t^2 - (x^2 + y^2 + z^2))
-    @test isapprox(LorentzVectorBase.mass(mom_onshell), sqrt(t^2 - (x^2 + y^2 + z^2)))
+  @test isapprox(LorentzVectorBase.mass2(mom_onshell), t^2 - (x^2 + y^2 + z^2))
+  @test isapprox(LorentzVectorBase.mass(mom_onshell), sqrt(t^2 - (x^2 + y^2 + z^2)))
 
   @test isapprox(LorentzVectorBase.mass(mom_onshell), m)
   @test isapprox(LorentzVectorBase.mass(mom_offshell), -m)
@@ -57,33 +57,33 @@ end
 end
 
 @testset "momentum components" begin
-    @test LorentzVectorBase.t(mom_onshell) == t
-    @test LorentzVectorBase.x(mom_onshell) == x
-    @test LorentzVectorBase.y(mom_onshell) == y
-    @test LorentzVectorBase.z(mom_onshell) == z
+  @test LorentzVectorBase.t(mom_onshell) == t
+  @test LorentzVectorBase.x(mom_onshell) == x
+  @test LorentzVectorBase.y(mom_onshell) == y
+  @test LorentzVectorBase.z(mom_onshell) == z
 
-    @test isapprox(LorentzVectorBase.boost_beta(mom_onshell), sqrt(x^2 + y^2 + z^2) / t)
-    @test isapprox(
-        LorentzVectorBase.boost_gamma(mom_onshell),
-        1 / sqrt(1.0 - LorentzVectorBase.boost_beta(mom_onshell)^2),
-    )
+  @test isapprox(LorentzVectorBase.boost_beta(mom_onshell), sqrt(x^2 + y^2 + z^2) / t)
+  @test isapprox(
+    LorentzVectorBase.boost_gamma(mom_onshell),
+    1 / sqrt(1.0 - LorentzVectorBase.boost_beta(mom_onshell)^2),
+  )
 
-    @test LorentzVectorBase.t(mom_zero) == 0.0
-    @test LorentzVectorBase.x(mom_zero) == 0.0
-    @test LorentzVectorBase.y(mom_zero) == 0.0
-    @test LorentzVectorBase.z(mom_zero) == 0.0
-    @test isapprox(LorentzVectorBase.boost_beta(mom_zero), 0.0)
-    @test isapprox(LorentzVectorBase.boost_gamma(mom_zero), 1.0)
+  @test LorentzVectorBase.t(mom_zero) == 0.0
+  @test LorentzVectorBase.x(mom_zero) == 0.0
+  @test LorentzVectorBase.y(mom_zero) == 0.0
+  @test LorentzVectorBase.z(mom_zero) == 0.0
+  @test isapprox(LorentzVectorBase.boost_beta(mom_zero), 0.0)
+  @test isapprox(LorentzVectorBase.boost_gamma(mom_zero), 1.0)
 end
 
 @testset "transverse coordiantes value" begin
-    @test isapprox(LorentzVectorBase.pt2(mom_onshell), x^2 + y^2)
-    @test isapprox(LorentzVectorBase.pt(mom_onshell), sqrt(x^2 + y^2))
-    @test isapprox(LorentzVectorBase.mt2(mom_onshell), t^2 - z^2)
-    @test isapprox(LorentzVectorBase.mt(mom_onshell), sqrt(t^2 - z^2))
-    @test isapprox(LorentzVectorBase.mt(mom_offshell), -m)
+  @test isapprox(LorentzVectorBase.pt2(mom_onshell), x^2 + y^2)
+  @test isapprox(LorentzVectorBase.pt(mom_onshell), sqrt(x^2 + y^2))
+  @test isapprox(LorentzVectorBase.mt2(mom_onshell), t^2 - z^2)
+  @test isapprox(LorentzVectorBase.mt(mom_onshell), sqrt(t^2 - z^2))
+  @test isapprox(LorentzVectorBase.mt(mom_offshell), -m)
 
-    @test isapprox(LorentzVectorBase.rapidity(mom_onshell), 0.5 * log((t + z) / (t - z)))
+  @test isapprox(LorentzVectorBase.rapidity(mom_onshell), 0.5 * log((t + z) / (t - z)))
 
   @test isapprox(LorentzVectorBase.pt2(mom_zero), 0.0)
   @test isapprox(LorentzVectorBase.pt(mom_zero), 0.0)
@@ -110,8 +110,8 @@ end
 end
 
 @testset "light-cone coordiantes" begin
-    @test isapprox(LorentzVectorBase.plus_component(mom_onshell), 0.5 * (t + z))
-    @test isapprox(LorentzVectorBase.minus_component(mom_onshell), 0.5 * (t - z))
+  @test isapprox(LorentzVectorBase.plus_component(mom_onshell), 0.5 * (t + z))
+  @test isapprox(LorentzVectorBase.minus_component(mom_onshell), 0.5 * (t - z))
 
   @test isapprox(LorentzVectorBase.plus_component(mom_zero), 0.0)
   @test isapprox(LorentzVectorBase.minus_component(mom_zero), 0.0)
