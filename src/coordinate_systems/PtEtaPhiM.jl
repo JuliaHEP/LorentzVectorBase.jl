@@ -1,6 +1,6 @@
 """
 
-    PtEtaPhiM <: AbstractCoordinateSystem  
+    PtEtaPhiM <: AbstractCoordinateSystem
 
 Cylindrical coordinate system for four-momenta. Using this requires the implementation of the following interface functions:
 
