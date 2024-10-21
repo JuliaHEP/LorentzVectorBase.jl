@@ -64,7 +64,7 @@ end
   else
     throw(
       ArgumentError(
-        "There is no beta for a four-vector with vanishing time/energy component"
+        "there is no beta for a four-vector with vanishing time/energy component"
       ),
     )
   end
