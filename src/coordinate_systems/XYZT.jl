@@ -46,7 +46,7 @@ end
 @inline function mass(::XYZT, mom)
   m2 = mass2(mom)
   if m2 < zero(m2)
-    # Think about including this waring, maybe optional with a global PRINT_WARINGS switch.
+    # Think about including this warning, maybe optional with a global PRINT_WARNINGS switch.
     #@warn("The square of the invariant mass (m2=P*P) is negative. The value -sqrt(-m2) is returned.")
     return -sqrt(-m2)
   else
