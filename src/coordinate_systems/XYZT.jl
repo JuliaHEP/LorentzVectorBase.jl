@@ -58,7 +58,7 @@ end
   en = t(mom)
   rho = spatial_magnitude(mom)
   if !iszero(en)
-    rho / en
+    return rho / en
   elseif iszero(rho)
     return zero(rho)
   else
