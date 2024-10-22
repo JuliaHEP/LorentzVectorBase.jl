@@ -213,7 +213,7 @@ Return the squared invariant mass of the Lorentz-vector-like `lv`, computed as t
 
 
 # Example
-For a four-momentum `(px, py, pz, E)`, this function returns `E² - (px² + py² + pz²)`.
+For a four-momentum ``(p_x, p_y, p_z, E)``, this function returns ``E^2 - (p_x^2 + p_y^2 + p_z^2)``.
 
 # See Also
 - [`mass`](@ref): For the invariant mass, i.e., the square root of this value.
