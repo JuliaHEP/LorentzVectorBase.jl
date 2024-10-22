@@ -17,5 +17,5 @@ begin
 
   @time @safetestset "PtEtaPhiM" begin
     include("PtEtaPhiM.jl")
-end
+  end
 end
