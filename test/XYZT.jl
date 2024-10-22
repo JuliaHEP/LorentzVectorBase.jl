@@ -23,6 +23,10 @@ t = sqrt(1 + x^2 + y^2 + z^2) # ensure a positive p*p
 lvec_non_zero = CustomLVector(x, y, z, t)
 lvec_zero = CustomLVector(0.0, 0.0, 0.0, 0.0)
 
+@testset "coordiante names" begin
+  coordinate_names(LorentzVectorBase.XYZT()) == (:x, :y, :z, :E)
+end
+
 @testset "spatial_magnitude consistence" for lvec in [lvec_non_zero, lvec_zero]
   @test isapprox(
     LorentzVectorBase.spatial_magnitude(lvec),
@@ -51,24 +55,35 @@ end
   @test isapprox(LorentzVectorBase.mass(lvec_zero), 0.0)
 end
 
-@testset "momentum components" begin
+@testset "cartesian components" begin
   @test LorentzVectorBase.t(lvec_non_zero) == t
-  @test LorentzVectorBase.x(lvec_non_zero) == x
-  @test LorentzVectorBase.y(lvec_non_zero) == y
-  @test LorentzVectorBase.z(lvec_non_zero) == z
+  @test LorentzVectorBase.t(LorentzVectorBase.XYZT(), lvec_non_zero) == t
 
-  @test isapprox(LorentzVectorBase.boost_beta(lvec_non_zero), sqrt(x^2 + y^2 + z^2) / t)
-  @test isapprox(
-    LorentzVectorBase.boost_gamma(lvec_non_zero),
-    1 / sqrt(1.0 - LorentzVectorBase.boost_beta(lvec_non_zero)^2),
-  )
+  @test LorentzVectorBase.x(lvec_non_zero) == x
+  @test LorentzVectorBase.x(LorentzVectorBase.XYZT(), lvec_non_zero) == x
+
+  @test LorentzVectorBase.y(lvec_non_zero) == y
+  @test LorentzVectorBase.y(LorentzVectorBase.XYZT(), lvec_non_zero) == y
+
+  @test LorentzVectorBase.z(lvec_non_zero) == z
+  @test LorentzVectorBase.z(LorentzVectorBase.XYZT(), lvec_non_zero) == z
 
   @test LorentzVectorBase.t(lvec_zero) == 0.0
   @test LorentzVectorBase.x(lvec_zero) == 0.0
   @test LorentzVectorBase.y(lvec_zero) == 0.0
   @test LorentzVectorBase.z(lvec_zero) == 0.0
+end
+
+@testset "boost coordinates" begin
+  @test isapprox(LorentzVectorBase.boost_beta(lvec_non_zero), sqrt(x^2 + y^2 + z^2) / t)
+  @test isapprox(
+    LorentzVectorBase.boost_gamma(lvec_non_zero),
+    1 / sqrt(1.0 - LorentzVectorBase.boost_beta(lvec_non_zero)^2),
+  )
   @test isapprox(LorentzVectorBase.boost_beta(lvec_zero), 0.0)
   @test isapprox(LorentzVectorBase.boost_gamma(lvec_zero), 1.0)
+
+  @test_throws ArgumentError LorentzVectorBase.boost_beta(CustomLVector(1, 1, 1, 0))
 end
 
 @testset "transverse coordiantes value" begin
@@ -83,6 +98,15 @@ end
   @test isapprox(LorentzVectorBase.pt(lvec_zero), 0.0)
   @test isapprox(LorentzVectorBase.mt2(lvec_zero), 0.0)
   @test isapprox(LorentzVectorBase.mt(lvec_zero), 0.0)
+end
+
+@testset "pseudo rapidity" begin
+  cth = z / sqrt(x^2 + y^2 + z^2)
+  @test isapprox(LorentzVectorBase.eta(lvec_non_zero), 0.5 * log((1 + cth) / (1 - cth)))
+
+  @test isapprox(LorentzVectorBase.eta(lvec_zero), 0.0)
+  @test isapprox(LorentzVectorBase.eta(CustomLVector(0.0, 0.0, 1.0, 0.0)), 10e10)
+  @test isapprox(LorentzVectorBase.eta(CustomLVector(0.0, 0.0, -1.0, 0.0)), 10e-10)
 end
 
 @testset "spherical coordiantes consistence" for lvec in [lvec_non_zero, lvec_zero]

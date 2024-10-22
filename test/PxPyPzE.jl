@@ -25,6 +25,10 @@ mom_onshell = CustomMom(px, py, pz, E)
 mom_zero = CustomMom(0.0, 0.0, 0.0, 0.0)
 mom_offshell = CustomMom(0.0, 0.0, m, 0.0)
 
+@testset "cooridnate names" begin
+  coordinate_names(LorentzVectorBase.PxPyPzE()) == (:px, :py, :pz, :E)
+end
+
 @testset "spatial_magnitude consistence" for mom in [mom_onshell, mom_offshell, mom_zero]
   @test isapprox(
     LorentzVectorBase.spatial_magnitude(mom),
@@ -61,6 +65,15 @@ end
   @test LorentzVectorBase.x(mom_onshell) == px
   @test LorentzVectorBase.y(mom_onshell) == py
   @test LorentzVectorBase.z(mom_onshell) == pz
+
+  @test LorentzVectorBase.E(mom_onshell) == E
+  @test LorentzVectorBase.E(LorentzVectorBase.PxPyPzE(), mom_onshell) == E
+  @test LorentzVectorBase.px(mom_onshell) == px
+  @test LorentzVectorBase.px(LorentzVectorBase.PxPyPzE(), mom_onshell) == px
+  @test LorentzVectorBase.py(mom_onshell) == py
+  @test LorentzVectorBase.py(LorentzVectorBase.PxPyPzE(), mom_onshell) == py
+  @test LorentzVectorBase.pz(mom_onshell) == pz
+  @test LorentzVectorBase.pz(LorentzVectorBase.PxPyPzE(), mom_onshell) == pz
 
   @test isapprox(LorentzVectorBase.boost_beta(mom_onshell), sqrt(px^2 + py^2 + pz^2) / E)
   @test isapprox(

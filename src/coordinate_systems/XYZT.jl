@@ -113,13 +113,13 @@ function eta(::XYZT, mom)
     return -0.5 * log((1 - cth) / (1 + cth))
   end
 
-  z = z(mom)
-  if iszero(z)
-    return zero(z)
+  zcomp = z(mom)
+  if iszero(zcomp)
+    return zero(zcomp)
   end
 
   @warn "Pseudorapidity (η): transverse momentum is zero! return +/- 10e10"
-  if z > zero(z)
+  if zcomp > zero(zcomp)
     return 10e10
   end
 
