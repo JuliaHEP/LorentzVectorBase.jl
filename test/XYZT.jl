@@ -58,20 +58,28 @@ end
 @testset "cartesian components" begin
   @test LorentzVectorBase.t(lvec_non_zero) == t
   @test LorentzVectorBase.t(LorentzVectorBase.XYZT(), lvec_non_zero) == t
+  @test LorentzVectorBase.E(lvec_non_zero) == t
 
   @test LorentzVectorBase.x(lvec_non_zero) == x
   @test LorentzVectorBase.x(LorentzVectorBase.XYZT(), lvec_non_zero) == x
+  @test LorentzVectorBase.px(lvec_non_zero) == x
 
   @test LorentzVectorBase.y(lvec_non_zero) == y
   @test LorentzVectorBase.y(LorentzVectorBase.XYZT(), lvec_non_zero) == y
+  @test LorentzVectorBase.py(lvec_non_zero) == y
 
   @test LorentzVectorBase.z(lvec_non_zero) == z
   @test LorentzVectorBase.z(LorentzVectorBase.XYZT(), lvec_non_zero) == z
+  @test LorentzVectorBase.pz(lvec_non_zero) == z
 
   @test LorentzVectorBase.t(lvec_zero) == 0.0
+  @test LorentzVectorBase.E(lvec_zero) == 0.0
   @test LorentzVectorBase.x(lvec_zero) == 0.0
+  @test LorentzVectorBase.px(lvec_zero) == 0.0
   @test LorentzVectorBase.y(lvec_zero) == 0.0
+  @test LorentzVectorBase.py(lvec_zero) == 0.0
   @test LorentzVectorBase.z(lvec_zero) == 0.0
+  @test LorentzVectorBase.pz(lvec_zero) == 0.0
 end
 
 @testset "boost coordinates" begin
