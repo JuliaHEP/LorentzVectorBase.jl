@@ -1,6 +1,6 @@
 """
 
-    PtEtaPhiM <: AbstractCoordinateSystem  
+    PtEtaPhiM <: AbstractCoordinateSystem
 
 Cylindrical coordinate system for four-momenta. Using this requires the implementation of the following interface functions:
 
@@ -13,7 +13,7 @@ mass(::CustomFourMomentum)
 
 """
 struct PtEtaPhiM <: AbstractCoordinateSystem end
-coordinate_names(::PtEtaPhiM) = (:pt, :eta, :phi, :energy)
+coordinate_names(::PtEtaPhiM) = (:pt, :eta, :phi, :mass)
 
 ####
 # derived components
@@ -92,15 +92,9 @@ end
 #######################
 
 @inline function polar_angle(::PtEtaPhiM, mom)
-  xcomp = px(mom)
-  ycomp = py(mom)
-  zcomp = pz(mom)
-
-  return if iszero(xcomp) && iszero(ycomp) && iszero(zcomp)
-    zero(xcomp)
-  else
-    atan(transverse_momentum(mom), zcomp)
-  end
+  η = eta(mom)
+  r = spatial_magnitude(mom)
+  return iszero(r) && iszero(pz(mom)) ? zero(pz(mom)) : 2 * atan(exp(-η))
 end
 
 @inline function cos_theta(::PtEtaPhiM, mom)
