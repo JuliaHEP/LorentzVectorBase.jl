@@ -16,22 +16,22 @@ LorentzVectorBase.E(::CustomFourMomentum)
 struct PxPyPzE <: AbstractCoordinateSystem end
 coordinate_names(::PxPyPzE) = (:px, :py, :pz, :E)
 
-x(::PxPyPzE, p) = px(p)
+x(cs, p) = px(p)
 x(::XYZT, p) = x(p)
 px(::PxPyPzE, p) = px(p)
 px(::XYZT, p) = x(p)
 
-y(::PxPyPzE, p) = py(p)
+y(cs, p) = py(p)
 y(::XYZT, p) = y(p)
 py(::PxPyPzE, p) = py(p)
 py(::XYZT, p) = y(p)
 
-z(::PxPyPzE, p) = pz(p)
+z(cs, p) = pz(p)
 z(::XYZT, p) = z(p)
 pz(::PxPyPzE, p) = pz(p)
 pz(::XYZT, p) = z(p)
 
-t(::PxPyPzE, p) = E(p)
+t(cs, p) = E(p)
 t(::XYZT, p) = t(p)
 E(::PxPyPzE, p) = E(p)
 E(::XYZT, p) = t(p)
