@@ -213,7 +213,7 @@ Return the squared invariant mass of the Lorentz-vector-like `lv`, computed as t
 
 
 # Example
-For a four-momentum ``(p_x, p_y, p_z, E)``, this function returns ``E^2 - (p_x^2 + p_y^2 + p_z^2)``.
+For a four-momentum `(px, py, pz, E)`, this function returns `E^2 - (px^2 + py^2 + pz^2)`.
 
 # See Also
 - [`mass`](@ref): For the invariant mass, i.e., the square root of this value.
@@ -228,10 +228,10 @@ Return the invariant mass  of the Lorentz-vector-like `lv`, computed as the squa
 
 
 # Example
-For a four-momentum `(px, py, pz, E)`, this function returns `sqrt(E² - (px² + py² + pz²))`.
+For a four-momentum `(px, py, pz, E)`, this function returns `sqrt(E^2 - (px^2 + py^2 + pz^2))`.
 
 # Notes
-- If the squared invariant mass `m²` is negative, this function returns `-sqrt(-m²)` to ensure a real result. This can happen in certain unphysical cases where the energy component is smaller than the spatial momentum magnitude.
+- If the squared invariant mass `m^2` is negative, this function returns `-sqrt(-m^2)` to ensure a real result. This can happen in certain unphysical cases where the energy component is smaller than the spatial momentum magnitude.
 
 # See Also
 - [`mass2`](@ref): For the squared invariant mass calculation.
@@ -247,7 +247,7 @@ Return the magnitude of the velocity (``\\beta``) of a particle as a fraction of
 
 
 # Example
-For a four-momentum `(px, py, pz, E)`, this function returns `sqrt(px² + py² + pz²) / E`.
+For a four-momentum `(px, py, pz, E)`, this function returns `sqrt(px^2 + py^2 + pz^2) / E`.
 
 # Throws
 - `ArgumentError` if the time (energy) component is zero while the spatial components are non-zero, as this results in an undefined velocity.
@@ -267,10 +267,10 @@ Return the relativistic gamma factor (``\\gamma``) for the Lorentz-vector-like `
 
 
 # Example
-For a four-momentum `(px, py, pz, E)` with velocity `β`, this function returns `1 / sqrt(1 - β²)`.
+For a four-momentum `(px, py, pz, E)` with velocity ``\\beta``, this function returns ``1 / sqrt(1 - \\beta^2)``.
 
 # See Also
-- [`boost_beta`](@ref): For the velocity `β`, which is used to compute `γ`.
+- [`boost_beta`](@ref): For the velocity ``\\beta``, which is used to compute ``\\gamma``.
 """
 boost_gamma
 
@@ -295,7 +295,8 @@ pt2
 """
     pt(lv)
 
-Return the transverse momentum (``p_T``) of a given Lorentz-vector-like `lv`, defined as the Euclidean magnitude of the momentum components in the x-y plane.
+Return the transverse momentum (``p_T``) of a given Lorentz-vector-like `lv`, defined as
+the Euclidean magnitude of the momentum components in the x-y plane.
 
 # Example
 For a four-momentum `(px, py, pz, E)`, this function returns `sqrt(px^2 + py^2)`.
@@ -312,7 +313,8 @@ pt
 """
     mt2(lv)
 
-Return the squared transverse mass (``m_T^2``) of a given Lorentz-vector-like `lv`, which is the difference between the squared time- (energy-) and the squared z-component.
+Return the squared transverse mass (``m_T^2``) of a given Lorentz-vector-like `lv`, which
+is the difference between the squared time- (energy-) and the squared z-component.
 
 # Example
 For a four-momentum `(px, py, pz, E)`, this function returns `E^2 - pz^2`.
@@ -328,13 +330,16 @@ mt2
 """
     mt(lv)
 
-Return the transverse mass (``m_T``) of a given Lorentz-vector-like `lv`, calculated as the square root of the squared transverse mass. The transverse mass is often used in high-energy physics to describe the effective mass of a system when only the transverse components are considered.
+Return the transverse mass (``m_T``) of a given Lorentz-vector-like `lv`, calculated as the
+square root of the squared transverse mass. The transverse mass is often used in high-energy
+physics to describe the effective mass of a system when only the transverse components are considered.
 
 # Example
 For a four-momentum `(px, py, pz, E)`, this function returns `sqrt(E^2 - pz^2)`.
 
 # Notes
-- If the squared transverse mass (`mT²`) is negative, the function returns `-sqrt(-mT²)` to handle the imaginary mass situation that can occur in some relativistic systems.
+- If the squared transverse mass (`mT^2`) is negative, the function returns `-sqrt(-mT^2)` to
+handle the imaginary mass situation that can occur in some relativistic systems.
 - The transverse components are defined with respect to the z-axis (3-axis), indicating momentum in the x-y plane.
 
 # Throws
@@ -348,7 +353,9 @@ mt
 """
     eta(lv)
 
-Return the [pseudorapidity](https://en.wikipedia.org/wiki/Pseudorapidity) (``\\eta``) of a given Lorentz-vector-like `lv`. The pseudorapidity is a commonly used quantity in high-energy physics, particularly in collider experiments, and is defined as:
+Return the [pseudorapidity](https://en.wikipedia.org/wiki/Pseudorapidity) (``\\eta``) of a
+given Lorentz-vector-like `lv`. The pseudorapidity is a commonly used quantity in high-energy
+physics, particularly in collider experiments, and is defined as:
 
 ```math
     \\eta = -\\log(\\tan(\\theta/ 2))
@@ -362,10 +369,13 @@ For a four-momentum `(px, py, pz, E)`, this function `log(tan(theta/2))` where `
 
 !!! warning
 
-    If the transverse momentum (`pt`) is zero (i.e., the particle is aligned with the beam axis), a warning is raised, and a large pseudorapidity value (±10e10) is returned as a convention. This occurs because the pseudorapidity is ill-defined when `pt = 0`.
+    If the transverse momentum (`pt`) is zero (i.e., the particle is aligned with the beam axis),
+    a warning is raised, and a large pseudorapidity value (±10e10) is returned as a convention.
+    This occurs because the pseudorapidity is ill-defined when `pt = 0`.
 
 # Notes
-- Pseudorapidity is approximately equal to the rapidity ``y`` in the ultra-relativistic limit (when the particle's mass is negligible compared to its energy).
+- Pseudorapidity is approximately equal to the rapidity ``y`` in the ultra-relativistic limit
+    (when the particle's mass is negligible compared to its energy).
 
 # See Also
 - [`rapidity`](@ref): For the rapidity of the Lorentz-vector-like.
@@ -392,13 +402,18 @@ y = 0.5 * log((E + pz) / (E - pz))
 ```
 
 # Notes
-- Rapidity is preferred over pseudorapidity when mass effects are significant, as it takes into account the energy and longitudinal momentum of the particle. In contrast, pseudorapidity depends only on the particle's direction and ignores mass.
+- Rapidity is preferred over pseudorapidity when mass effects are significant, as it takes
+    into account the energy and longitudinal momentum of the particle. In contrast, pseudorapidity
+    depends only on the particle's direction and ignores mass.
 - The transverse components of the momentum are defined with respect to the 3-axis (beam axis).
-- Rapidity is Lorentz-invariant under boosts along the z-axis, making it useful for comparisons between different reference frames in collider experiments.
+- Rapidity is Lorentz-invariant under boosts along the z-axis, making it useful for comparisons
+    between different reference frames in collider experiments.
 
 !!! warning
 
-    If the particle's energy `E` is equal to its longitudinal momentum `pz`, resulting in a denominator of zero in the logarithm, the function will raise an error as rapidity is ill-defined in this case.
+    If the particle's energy `E` is equal to its longitudinal momentum `pz`, resulting in a
+    denominator of zero in the logarithm, the function will raise an error as rapidity is
+    ill-defined in this case.
 
 # See Also
 - [`LorentzVectorBase.eta`](@ref): For the pseudorapidity of the Lorentz-vector-like.
@@ -412,7 +427,8 @@ rapidity
 
 Return the plus component (``p^+``) of the Lorentz-vector-like `lv` in light-cone coordinates.
 
-This component is defined as `(t + z) / 2`, where `t` is the time (or energy) component and `z` is the third spatial component of the Lorentz-vector-like.
+This component is defined as `(t + z) / 2`, where `t` is the time (or energy) component and
+`z` is the third spatial component of the Lorentz-vector-like.
 
 
 # Example
@@ -430,7 +446,8 @@ plus_component
 
 Return the minus component (``p^-``) of the Lorentz-vector-like `lv` in light-cone coordinates.
 
-This component is defined as `(t - z) / 2`, where `t` is the time (or energy) component and `z` is the third spatial component of the Lorentz-vector-like.
+This component is defined as `(t - z) / 2`, where `t` is the time (or energy) component and `z`
+is the third spatial component of the Lorentz-vector-like.
 
 # Example
 If `(x, y, z, t)` is a four-vector, this is equivalent to `(t - z) / 2`.
