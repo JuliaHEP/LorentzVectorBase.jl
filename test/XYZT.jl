@@ -114,7 +114,7 @@ end
 
   @test isapprox(LorentzVectorBase.eta(lvec_zero), 0.0)
   @test isapprox(LorentzVectorBase.eta(CustomLVector(0.0, 0.0, 1.0, 0.0)), 10e10)
-  @test isapprox(LorentzVectorBase.eta(CustomLVector(0.0, 0.0, -1.0, 0.0)), 10e-10)
+  @test isapprox(LorentzVectorBase.eta(CustomLVector(0.0, 0.0, -1.0, 0.0)), -10e10)
 end
 
 @testset "spherical coordiantes consistence" for lvec in [lvec_non_zero, lvec_zero]

@@ -123,7 +123,7 @@ function eta(::XYZT, mom)
     return 10e10
   end
 
-  return 10e-10
+  return -10e10
 end
 
 #######################
