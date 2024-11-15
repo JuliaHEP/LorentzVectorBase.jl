@@ -15,10 +15,14 @@ function coordinate_names end
 function coordinate_system end
 
 const FOURMOMENTUM_GETTER_FUNCTIONS = (
+  :x,
+  :y,
+  :z,
+  :t,
   :px,
   :py,
   :pz,
-  :energy,
+  :E,
   :pt,
   :pt2,
   :eta,
@@ -49,6 +53,7 @@ for func in FOURMOMENTUM_GETTER_FUNCTIONS
 end
 
 const FOURMOMENTUM_GETTER_ALIASSES = Dict(
+  :energy => :t,
   :invariant_mass => :mass,
   :invariant_mass2 => :mass2,
   :transverse_momentum => :pt,
