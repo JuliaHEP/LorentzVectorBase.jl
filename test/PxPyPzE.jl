@@ -5,11 +5,11 @@ using LorentzVectorBase
 const ATOL = 1e-15
 const RNG = MersenneTwister(137137)
 
-struct CustomMom
-  px
-  py
-  pz
-  E
+struct CustomMom{T}
+  px::T
+  py::T
+  pz::T
+  E::T
 end
 
 LorentzVectorBase.coordinate_system(::CustomMom) = LorentzVectorBase.PxPyPzE()
@@ -110,6 +110,33 @@ end
   )
   @test isapprox(LorentzVectorBase.cos_phi(mom_on), cos(LorentzVectorBase.phi(mom_on)))
   @test isapprox(LorentzVectorBase.sin_phi(mom_on), sin(LorentzVectorBase.phi(mom_on)))
+end
+
+@testset "Ranges for angles: (θ,ϕ) ∈ [0,π] x [-π,π]" begin
+  p = CustomMom(1.0, sqrt(3), 1.0, 8.0)
+  θ = acos(1 / sqrt(5))
+  ϕ = π / 3
+  #
+  @test LorentzVectorBase.polar_angle(p) ≈ θ
+  @test LorentzVectorBase.azimuthal_angle(p) ≈ ϕ
+
+  p = CustomMom(1.0, sqrt(3), -1.0, 8.0)
+  @test LorentzVectorBase.polar_angle(p) ≈ π - θ
+  @test LorentzVectorBase.azimuthal_angle(p) ≈ ϕ
+
+  p = CustomMom(-1.0, sqrt(3), 1.0, 8.0)
+  @test LorentzVectorBase.polar_angle(p) ≈ θ
+  @test LorentzVectorBase.azimuthal_angle(p) ≈ π - ϕ
+
+  p = CustomMom(-1.0, sqrt(3), -1.0, 8.0)
+  @test LorentzVectorBase.polar_angle(p) ≈ π - θ
+  @test LorentzVectorBase.azimuthal_angle(p) ≈ π - ϕ
+  #
+  p = CustomMom(-1.0, -sqrt(3), -1.0, 8.0)
+  @test LorentzVectorBase.azimuthal_angle(p) ≈ -π + ϕ
+  #
+  p = CustomMom(1.0, -sqrt(3), -1.0, 8.0)
+  @test LorentzVectorBase.azimuthal_angle(p) ≈ -ϕ
 end
 
 @testset "spherical coordiantes values" begin
