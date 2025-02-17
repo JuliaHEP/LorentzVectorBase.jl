@@ -1,16 +1,50 @@
 """
-
     PtEtaPhiM <: AbstractCoordinateSystem
 
-Cylindrical coordinate system for four-momenta. Using this requires the implementation of the following interface functions:
+Represents the cylindrical coordinate system for four-momenta, commonly used in high-energy physics.
+This system expresses four-momentum components in terms of transverse momentum (`pt`), pseudorapidity (`eta`),
+azimuthal angle (`phi`), and mass (`mass`).
+
+To use this coordinate system with a custom four-momentum type, you must implement the following interface methods:
 
 ```julia
-pt(::CustomFourMomentum)
-eta(::CustomFourMomentum)
-phi(::CustomFourMomentum)
-mass(::CustomFourMomentum)
+LorentzVectorBase.pt(::CustomFourMomentum)    # Returns the transverse momentum
+LorentzVectorBase.eta(::CustomFourMomentum)   # Returns the pseudorapidity
+LorentzVectorBase.phi(::CustomFourMomentum)   # Returns the azimuthal angle
+LorentzVectorBase.mass(::CustomFourMomentum)  # Returns the mass
 ```
 
+### Example
+
+The following example demonstrates how to define a custom four-momentum type and implement the required interface:
+
+```jldoctest
+julia> struct CustomFourMomentum
+           pt
+           eta
+           phi
+           mass
+       end
+
+julia> LorentzVectorBase.coordinate_system(::CustomFourMomentum) = LorentzVectorBase.PtEtaPhiM()
+
+julia> LorentzVectorBase.pt(p::CustomFourMomentum) = p.pt
+
+julia> LorentzVectorBase.eta(p::CustomFourMomentum) = p.eta
+
+julia> LorentzVectorBase.phi(p::CustomFourMomentum) = p.phi
+
+julia> LorentzVectorBase.mass(p::CustomFourMomentum) = p.mass
+
+julia> p = CustomFourMomentum(10.0, 2.5, 1.57, 0.105)
+CustomFourMomentum(10.0, 2.5, 1.57, 0.105)
+
+julia> isapprox(LorentzVectorBase.polar_angle(p), 2 * atan(exp(-2.5)))
+true
+
+```
+
+By implementing these methods, the custom type `CustomFourMomentum` becomes compatible with `LorentzVectorBase` operations in the `PtEtaPhiM` coordinate system.
 """
 struct PtEtaPhiM <: AbstractCoordinateSystem end
 coordinate_names(::PtEtaPhiM) = (:pt, :eta, :phi, :mass)
