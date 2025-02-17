@@ -62,3 +62,9 @@ PtEtaPhiM
   plus_component
   minus_component
 ```
+
+## Utility
+
+```@docs
+available_accessors
+```
