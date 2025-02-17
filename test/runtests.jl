@@ -7,6 +7,10 @@ begin
     include("interface.jl")
   end
 
+  @time @safetestset "utility" begin
+    include("utility.jl")
+  end
+
   @time @safetestset "XYZT" begin
     include("XYZT.jl")
   end
