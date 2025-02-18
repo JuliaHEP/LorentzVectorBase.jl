@@ -1,11 +1,14 @@
 # [Interface](@id interface)
 
-This section explains how an object can become a _object with kinematic informations_.
+The main purpose of `LorentzVectorBase` is to provide a general interface for _Julia
+objects with Lorentz vector informations_. This means one implements a minimal set of
+accessor functions, specified by a _coordinate system_, and `LorentzVectorBase` provides
+implementations for a whole suite of additional accessor functions.
 
 ## Definition
 
 A type that adheres to the interface described in this section will be referred to as
-_`KinematicInterface`-compliant_. A package providing such a type will be called _the provider_.
+_`LorentzVectorBase`-compliant_. A package providing such a type will be called _the provider_.
 
 ## Coordinate Systems
 

@@ -30,7 +30,15 @@ open(readme_path, "r") do readme_in
 end
 
 pages = [
-  "Home" => "index.md", "Interface" => "10-interface.md", "Reference" => "95-reference.md"
+  "Home" => "index.md",
+  "Interface" => "10-interface.md",
+  "Tutorial" => [
+    "New Four-Vector" => "tutorial/20-new_four_vector.md",
+    "New Coordinate System" => "tutorial/21-new_coord_system.md",
+  ],
+  "Contributors guide" => "90-contributing.md",
+  "Developer docs" => "91-dev_docs.md",
+  "API Reference" => "95-reference.md",
 ]
 
 try
