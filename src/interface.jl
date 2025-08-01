@@ -45,11 +45,9 @@ const FOURMOMENTUM_GETTER_FUNCTIONS = (
 )
 
 for func in FOURMOMENTUM_GETTER_FUNCTIONS
-  eval(
-    quote
-      ($func)(mom) = ($func)($coordinate_system(mom), mom)
-    end,
-  )
+  eval(quote
+    ($func)(mom) = ($func)($coordinate_system(mom), mom)
+  end)
 end
 
 const FOURMOMENTUM_GETTER_ALIASSES = Dict(
@@ -67,9 +65,7 @@ const FOURMOMENTUM_GETTER_ALIASSES = Dict(
 )
 
 for (alias, func) in FOURMOMENTUM_GETTER_ALIASSES
-  eval(
-    quote
-      ($alias)(mom) = ($func)(mom)
-    end,
-  )
+  eval(quote
+    ($alias)(mom) = ($func)(mom)
+  end)
 end

@@ -7,6 +7,7 @@ Pkg.develop(; path=project_path)
 
 using LorentzVectorBase
 using Documenter
+using Literate
 
 DocMeta.setdocmeta!(
   LorentzVectorBase, :DocTestSetup, :(using LorentzVectorBase); recursive=true
@@ -29,11 +30,22 @@ open(readme_path, "r") do readme_in
   end
 end
 
+# setup examples using Literate.jl
+literate_paths = [
+  Base.Filesystem.joinpath(project_path, "docs/src/tutorial/20-new_four_vector.jl")
+]
+
+tutorial_output_dir = joinpath(project_path, "docs/src/generated/")
+!ispath(tutorial_output_dir) && mkdir(tutorial_output_dir)
+@info "Literate: create temp dir at $tutorial_output_dir"
+
+tutorial_output_dir_name = splitpath(tutorial_output_dir)[end]
+
 pages = [
   "Home" => "index.md",
   "Interface" => "10-interface.md",
   "Tutorial" => [
-    "New Four-Vector" => "tutorial/20-new_four_vector.md",
+    "New Four-Vector" => joinpath(tutorial_output_dir_name, "20-new_four_vector.md"),
     "New Coordinate System" => "tutorial/21-new_coord_system.md",
   ],
   "Contributors guide" => "90-contributing.md",
@@ -42,6 +54,11 @@ pages = [
 ]
 
 try
+
+  # generate markdown files with Literate.jl
+  for file in literate_paths
+    Literate.markdown(file, tutorial_output_dir; documenter=true)
+  end
   makedocs(;
     modules=[LorentzVectorBase],
     authors="Uwe Hernandez Acosta <u.hernandez@hzdr.de>",
@@ -57,10 +74,12 @@ try
     pages=pages,
   )
 
+  deploydocs(; repo="github.com/JuliaHEP/LorentzVectorBase.jl", push_preview=true)
 finally
   # doing some garbage collection
   @info "GarbageCollection: remove generated landing page"
   rm(index_path)
-end
 
-deploydocs(; repo="github.com/JuliaHEP/LorentzVectorBase.jl", push_preview=true)
+  @info "GarbageCollection: remove generated tutorial files"
+  rm(tutorial_output_dir; recursive=true)
+end

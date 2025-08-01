@@ -92,9 +92,7 @@ const DELEGATED_GETTER_FUNCTIONS = (
 )
 
 for func in DELEGATED_GETTER_FUNCTIONS
-  eval(
-    quote
-      ($func)(::PxPyPzE, mom) = ($func)(XYZT(), mom)
-    end,
-  )
+  eval(quote
+    ($func)(::PxPyPzE, mom) = ($func)(XYZT(), mom)
+  end)
 end

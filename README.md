@@ -17,6 +17,12 @@ using Pkg
 Pkg.add("LorentzVectorBase")
 ```
 
+Alternatively, in the Julia REPL, enter `pkg>` mode by typing `]`, then
+
+```julia-repl
+add LorentzVectorBase
+```
+
 ## Usage
 
 This package defines abstract interfaces for Lorentz vectors. To utilize concrete implementations, consider packages like [LorentzVectorHEP.jl](https://github.com/JuliaHEP/LorentzVectorHEP.jl) or [FourVectors.jl](https://github.com/mmikhasenko/FourVectors.jl).
