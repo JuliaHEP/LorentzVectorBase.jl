@@ -32,7 +32,8 @@ end
 
 # setup examples using Literate.jl
 literate_paths = [
-  Base.Filesystem.joinpath(project_path, "docs/src/tutorial/20-new_four_vector.jl")
+  Base.Filesystem.joinpath(project_path, "docs/src/tutorial/20-new_four_vector.jl"),
+  Base.Filesystem.joinpath(project_path, "docs/src/tutorial/21-new_coord_system.jl"),
 ]
 
 tutorial_output_dir = joinpath(project_path, "docs/src/generated/")
@@ -46,7 +47,8 @@ pages = [
   "Interface" => "10-interface.md",
   "Tutorial" => [
     "New Four-Vector" => joinpath(tutorial_output_dir_name, "20-new_four_vector.md"),
-    "New Coordinate System" => "tutorial/21-new_coord_system.md",
+    "New Coordinate System" =>
+      joinpath(tutorial_output_dir_name, "21-new_coord_system.md"),
   ],
   "Contributors guide" => "90-contributing.md",
   "Developer docs" => "91-dev_docs.md",
