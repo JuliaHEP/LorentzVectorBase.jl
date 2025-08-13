@@ -21,31 +21,32 @@ The main goal is to provide a lightweight abstraction that enables:
 
 To make your type compliant with `LorentzVectorBase`, you must:
 
-1. **Assign a coordinate system** using:
+Assign a coordinate system using:
 
-    ```julia
-    LorentzVectorBase.coordinate_system(::Type{MyVector}) = XYZT()
-    ```
+```julia
+LorentzVectorBase.coordinate_system(::Type{MyVector}) = XYZT()
+```
 
-    Coordinate systems are tagged using constructors like `XYZT()`, `PtEtaPhiE()`, etc. These indicate how the four components are interpreted.
+Coordinate systems are tagged using constructors like `XYZT()`, `PtEtaPhiE()`, etc. These indicate how the four components are interpreted.
 
-2. **Implement the four accessors required by the chosen coordinate system**.
-   For example, with `XYZT()`:
+Implement the four accessors required by the chosen coordinate system.
 
-    ```julia
-    x(::MyVector)
-    y(::MyVector)
-    z(::MyVector)
-    t(::MyVector)
-    ```
+For example, with `XYZT()`:
 
-    You can inspect the required accessors for a given coordinate system using:
+```julia
+x(::MyVector)
+y(::MyVector)
+z(::MyVector)
+t(::MyVector)
+```
 
-    ```julia
-    coordinate_system(XYZT())  # returns (:x, :y, :z, :t)
-    ```
+You can inspect the required accessors for a given coordinate system using:
 
-    This indicates which component accessors your type must implement to be compliant with that system.
+```julia
+coordinate_system(XYZT())  # returns (:x, :y, :z, :t)
+```
+
+This indicates which component accessors your type must implement to be compliant with that system.
 
 That's it! Once those are defined, the `LorentzVectorBase` package will automatically
 provide implementations for a wide variety of additional kinematic functions and
