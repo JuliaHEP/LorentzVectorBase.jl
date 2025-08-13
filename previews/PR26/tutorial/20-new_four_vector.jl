@@ -12,7 +12,7 @@ using LorentzVectorBase
 # ## Step 2: Define your custom Lorentz vector type
 #
 # Let's define a simple concrete type representing a four-momentum vector
-# using Cartesian coordinates: `px`, `py`, `pz`, and `E`.
+# using Cartesian coordinates: `x`, `y`, `z`, and `t`.
 
 struct MyVector
   x::Float64
@@ -29,11 +29,11 @@ end
 LorentzVectorBase.coordinate_system(::MyVector) = LorentzVectorBase.XYZT()
 
 # The tag `XYZE()` indicates a four-momentum representation with components
-# `(px, py, pz, E)`.
+# `(x, y, z, t)`.
 # ## Step 4: Implement the required accessors
 #
 # Finally, we provide methods to extract the components expected by the `XYZE`
-# coordinate system: `px`, `py`, `pz`, and `energy`.
+# coordinate system: `x`, `y`, `z`, and `t`.
 
 LorentzVectorBase.x(v::MyVector) = v.x
 LorentzVectorBase.y(v::MyVector) = v.y
