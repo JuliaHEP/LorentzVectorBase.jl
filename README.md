@@ -25,18 +25,23 @@ add LorentzVectorBase
 
 ## Usage
 
-This package defines abstract interfaces for Lorentz vectors. To utilize concrete implementations, consider packages like [LorentzVectorHEP.jl](https://github.com/JuliaHEP/LorentzVectorHEP.jl) or [FourVectors.jl](https://github.com/mmikhasenko/FourVectors.jl).
+This package defines abstract interfaces for Lorentz vectors. To utilize concrete
+implementations, consider packages like
+[LorentzVectorHEP.jl](https://github.com/JuliaHEP/LorentzVectorHEP.jl) or
+[FourVectors.jl](https://github.com/mmikhasenko/FourVectors.jl).
 
 ## Example
 
-Here is an example of how to define a custom Lorentz vector type and implement the required interface functions:
+The following example shows how to define a custom Lorentz vector type and implement the
+minimal set of interface functions required by `LorentzVectorBase`:
 
-```Julia
+```julia
 struct CustomLVector
-  x
-  y
-  z
-  t
+    id::Int
+    x::Float64
+    y::Float64
+    z::Float64
+    t::Float64
 end
 
 LorentzVectorBase.coordinate_system(::CustomLVector) = LorentzVectorBase.XYZT()
@@ -44,9 +49,13 @@ LorentzVectorBase.x(lv::CustomLVector) = lv.x
 LorentzVectorBase.y(lv::CustomLVector) = lv.y
 LorentzVectorBase.z(lv::CustomLVector) = lv.z
 LorentzVectorBase.t(lv::CustomLVector) = lv.t
+```
 
+Your custom type can include any additional fields or logic as needed.
+In this example, an extra `id` field is included alongside the four-vector components:
 
-c = CustomLVector(1,2,3,4)
+```julia
+c = CustomLVector(rand(1:100), 1, 2, 3, 4)
 @assert isapprox(LorentzVectorBase.spatial_magnitude(c), sqrt(1^2 + 2^2 + 3^2))
 ```
 
