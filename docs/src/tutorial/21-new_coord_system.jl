@@ -33,7 +33,7 @@ using LorentzVectorBase
 
 # ## 1. Define the coordinate system type
 #
-# Coordinate systems are singletons and must be subtypes of
+# Coordinate systems are [singletons](https://docs.julialang.org/en/v1/manual/types/#man-singleton-types) and must be subtypes of
 # `AbstractCoordinateSystem`.
 
 struct LightConeCoordinates <: LorentzVectorBase.AbstractCoordinateSystem end
@@ -65,8 +65,6 @@ end
 function LorentzVectorBase.z(::LightConeCoordinates, mom)
   (plus_component(mom) - minus_component(mom)) / SQRT2
 end
-LorentzVectorBase.x(::LightConeCoordinates, mom) = p_x(mom)
-LorentzVectorBase.y(::LightConeCoordinates, mom) = p_y(mom)
 
 # Momentum magnitudes
 LorentzVectorBase.px(::LightConeCoordinates, mom) = p_x(mom)

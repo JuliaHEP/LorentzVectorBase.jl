@@ -3,7 +3,8 @@
 # This tutorial demonstrates how to make a custom Julia type compatible with the
 # `LorentzVectorBase` interface. Once your type implements the minimal required
 # methods, you gain access to a rich suite of automatically derived kinematic
-# functions such as `mass`, `pt`, `rapidity`, `phi`, and many others.
+# functions such as `mass`, `pt`, `rapidity`, `phi`, and many others. See [here](@ref
+# getter) for a complete list.
 #
 # ## Step 1: Load the package
 
@@ -28,11 +29,11 @@ end
 
 LorentzVectorBase.coordinate_system(::MyVector) = LorentzVectorBase.XYZT()
 
-# The tag `XYZE()` indicates a four-momentum representation with components
+# The tag `XYZT()` indicates a four-momentum representation with components
 # `(x, y, z, t)`.
 # ## Step 4: Implement the required accessors
 #
-# Finally, we provide methods to extract the components expected by the `XYZE`
+# Finally, we provide methods to extract the components expected by the `XYZT`
 # coordinate system: `x`, `y`, `z`, and `t`.
 
 LorentzVectorBase.x(v::MyVector) = v.x
@@ -69,14 +70,3 @@ using LorentzVectorBase: energy, invariant_mass, transverse_momentum
 energy(v) # Same as `t(v)` or `E(v)`
 invariant_mass(v) # Same as `mass(v)`
 transverse_momentum(v) # Same as `pt(v)`
-
-# ## Summary
-#
-# To implement the `LorentzVectorBase` interface, you need to:
-#
-# 1. Define a `struct` for your vector.
-# 2. Implement `coordinate_system(::Type{T})`.
-# 3. Define the component accessors required by the coordinate system.
-#
-# Once those are in place, you gain access to a large number of derived kinematic
-# quantities for free.

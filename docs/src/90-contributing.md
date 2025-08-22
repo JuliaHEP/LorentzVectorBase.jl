@@ -20,7 +20,7 @@ Otherwise, say what your proposed solution is and wait for a discussion around i
 
 !!! tip
 
-    Feel free to ping us after a few days if there are no responses.
+    If you haven’t received a reply after a few days, don’t hesitate to follow up.
 
 If your solution involves code (or something that requires running the package locally), check the [developer documentation](91-dev_docs.md).
 Otherwise, you can use the GitHub interface directly to create your pull request.

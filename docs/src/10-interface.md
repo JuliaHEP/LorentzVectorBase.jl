@@ -2,12 +2,14 @@
 CurrentModule = LorentzVectorBase
 ```
 
-# `LorentzVectorBase` Interface
+# [`LorentzVectorBase` Interface](@id interface)
 
 The `LorentzVectorBase` package defines a **common interface for
 LorentzVectorBase-compliant types** in Julia. This interface allows developers to define
 their own custom four-vector types (e.g., for particles or kinematic configurations) and
-automatically gain access to a large suite of common kinematic computations.
+automatically gain access to a large suite of common kinematic computations. For maximum
+flexibility, it is **not necessary** to inherit from an abstract base
+type.
 
 ## Purpose
 
@@ -52,7 +54,7 @@ That's it! Once those are defined, the `LorentzVectorBase` package will automati
 provide implementations for a wide variety of additional kinematic functions and
 coordinate conversions.
 
-## What You Get Automatically
+## [What You Get Automatically](@id getter)
 
 Once a minimal interface is implemented, the following functions become available (among others), categorized by topic:
 
