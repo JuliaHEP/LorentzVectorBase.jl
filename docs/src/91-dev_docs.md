@@ -8,9 +8,9 @@ If you want to make contributions to this package that involves code, then this 
 
 ## First time clone
 
-!!! tip "If you have writing rights"
+!!! tip "If you have write access to the repository"
 
-    If you have writing rights, you don't have to fork. Instead, simply clone and skip ahead. Whenever **upstream** is mentioned, use **origin** instead.
+    If you have write access you don't have to fork. Instead, simply clone and skip ahead. Whenever **upstream** is mentioned, use **origin** instead. This also allows pull requests to push a preview of the docs.
 
 If this is the first time you work with this repository, follow the instructions below to clone the repository.
 
@@ -136,6 +136,6 @@ After that, you only need to wait and verify:
 - Follow the link and wait for a comment on the auto-merge
 - The comment should said all is well and auto-merge should occur shortly
 - After the merge happens, TagBot will trigger and create a new GitHub tag. Check on <https://github.com/JuliaHEP/LorentzVectorBase.jl/releases>
-- After the release is create, a "docs" GitHub action will start for the tag.
+- After the release is created, a "docs" GitHub action will start for the tag.
 - After it passes, a deploy action will run.
 - After that runs, the [stable docs](https://JuliaHEP.github.io/LorentzVectorBase.jl/stable) should be updated. Check them and look for the version number.
