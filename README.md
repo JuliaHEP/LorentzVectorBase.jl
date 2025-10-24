@@ -1,6 +1,4 @@
-# LorentzVectorBase
-
-Base interfaces for four-momenta in high-energy physics.
+# LorentzVectorBase.jl
 
 [![Stable Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaHEP.github.io/LorentzVectorBase.jl/stable/)
 [![In development documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://JuliaHEP.github.io/LorentzVectorBase.jl/dev/)
@@ -8,17 +6,69 @@ Base interfaces for four-momenta in high-energy physics.
 [![Docs workflow Status](https://github.com/JuliaHEP/LorentzVectorBase.jl/actions/workflows/Docs.yml/badge.svg?branch=main)](https://github.com/JuliaHEP/LorentzVectorBase.jl/actions/workflows/Docs.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/JuliaHEP/LorentzVectorBase.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/JuliaHEP/LorentzVectorBase.jl)
 
-# Code Formatting
+**LorentzVectorBase.jl** provides base interfaces for four-momenta in high-energy physics, facilitating standardized representations and operations on Lorentz vectors.
 
-This package follows a standardized formatting configuration to ensure consistency across
-the codebase. We enforce these formatting guidelines by running checks on all pull requests
-through continuous integration (CI).
+## Installation
 
-To format your code locally and ensure it meets the required standards, you can run the
-following command in your terminal:
+Install the package using Julia's package manager:
 
-```bash
+```julia
+using Pkg
+Pkg.add("LorentzVectorBase")
+```
+
+Alternatively, in the Julia REPL, enter `pkg>` mode by typing `]`, then
+
+```julia-repl
+add LorentzVectorBase
+```
+
+## Usage
+
+This package defines abstract interfaces for Lorentz vectors. To utilize concrete
+implementations, consider packages like
+[LorentzVectorHEP.jl](https://github.com/JuliaHEP/LorentzVectorHEP.jl) or
+[FourVectors.jl](https://github.com/mmikhasenko/FourVectors.jl).
+
+## Example
+
+The following example shows how to define a custom Lorentz vector type and implement the
+minimal set of interface functions required by `LorentzVectorBase`:
+
+```julia
+struct CustomLVector
+    id::Int
+    x::Float64
+    y::Float64
+    z::Float64
+    t::Float64
+end
+
+LorentzVectorBase.coordinate_system(::CustomLVector) = LorentzVectorBase.XYZT()
+LorentzVectorBase.x(lv::CustomLVector) = lv.x
+LorentzVectorBase.y(lv::CustomLVector) = lv.y
+LorentzVectorBase.z(lv::CustomLVector) = lv.z
+LorentzVectorBase.t(lv::CustomLVector) = lv.t
+```
+
+Your custom type can include any additional fields or logic as needed.
+In this example, an extra `id` field is included alongside the four-vector components:
+
+```julia
+c = CustomLVector(rand(1:100), 1, 2, 3, 4)
+@assert isapprox(LorentzVectorBase.spatial_magnitude(c), sqrt(1^2 + 2^2 + 3^2))
+```
+
+## Code Formatting
+
+To maintain code consistency, format your code with:
+
+```julia
 julia --project=.formatting -e 'using Pkg; Pkg.instantiate(); include(".formatting/format_all.jl")'
 ```
 
-This will apply the necessary formatting rules to your code before submission.
+This ensures adherence to the project's formatting standards.
+
+## License
+
+This project is licensed under the MIT License.

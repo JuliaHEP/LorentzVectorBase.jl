@@ -1,88 +1,159 @@
-# [Interface](@id interface)
+```@meta
+CurrentModule = LorentzVectorBase
+```
 
-This section explains how an object can become a _object with kinematic informations_.
+# [`LorentzVectorBase` Interface](@id interface)
 
-## Definition
+The `LorentzVectorBase` package defines a **common interface for
+LorentzVectorBase-compliant types** in Julia. This interface allows developers to define
+their own custom four-vector types (e.g., for particles or kinematic configurations) and
+automatically gain access to a large suite of common kinematic computations. For maximum
+flexibility, it is **not necessary** to inherit from an abstract base
+type.
 
-A type that adheres to the interface described in this section will be referred to as
-_`KinematicInterface`-compliant_. A package providing such a type will be called _the provider_.
+## Purpose
 
-## Coordinate Systems
+The main goal is to provide a lightweight abstraction that enables:
 
-The provider must define a preferred coordinate system for its _`KinematicInterface`-compliant_
-type and provide accessors for the components of this system using standardized methods
-(outlined below). If the object natively supports multiple coordinate systems, the provider
-should choose the one in which component access is the most efficient as the _preferred
-coordinate system_. This system must be one of the supported options.
+- Interoperability between different packages using Lorentz vectors
+- Automatic derivation of many derived quantities (e.g. $p_T$, $\eta$, $m$) from a minimal interface
+- Coordinate system flexibility while maintaining performance
 
-The `LorentzVectorBase` package supplements these component accessors to cover all supported
-coordinate systems. It uses the components of the _preferred coordinate system_ to implement
-complementary accessors. Julia’s dispatch mechanism prioritizes the accessors provided by
-the object itself.
+## Defining a Lorentz-Vector-Like Type
 
-!!! note
+To make your type compliant with `LorentzVectorBase`, you must:
 
-    A `KinematicInterface`-compliant type can store additional data beyond the four-vector. For instance,
-    a type representing an elementary particle may comply while containing more information than
-    just the particle’s four-momentum.
+Assign a coordinate system using:
 
-## Implementation
+```julia
+LorentzVectorBase.coordinate_system(::Type{MyVector}) = XYZT()
+```
 
-A type `MyLorentzVector` (which do not necessary need to be a vector) will comply with the `KinematicInterface` if it implements
-one of the following sets of methods:
+Coordinate systems are tagged using constructors like `XYZT()`, `PtEtaPhiE()`, etc. These indicate how the four components are interpreted.
 
-### Option 1: Position with Cartesian Coordinates
+Implement the four accessors required by the chosen coordinate system.
 
-| Required Methods                                                                        | Brief Description                               |
-| --------------------------------------------------------------------------------------- | ----------------------------------------------- |
-| `LorentzVectorBase.islorentzvector(::Type{MyLorentzVector})`                            | Declare that your type implements the interface |
-| `LorentzVectorBase.coordinate_system(::Type{MyLorentzVector}) = LorentzVectorBase.XYZE` | Declare the preferred coordinate system         |
-| `LorentzVectorBase.x(::MyLorentzVector)`                                                | X Cartesian coordinate                          |
-| `LorentzVectorBase.y(::MyLorentzVector)`                                                | Y Cartesian coordinate                          |
-| `LorentzVectorBase.z(::MyLorentzVector)`                                                | Z Cartesian coordinate                          |
-| `LorentzVectorBase.t(::MyLorentzVector)`                                                | Time coordinate (t)                             |
+For example, with `XYZT()`:
 
-### Option 2: Four-Momentum with Cartesian Coordinates
+```julia
+x(::MyVector)
+y(::MyVector)
+z(::MyVector)
+t(::MyVector)
+```
 
-| Required Methods                                                                        | Brief Description                               |
-| --------------------------------------------------------------------------------------- | ----------------------------------------------- |
-| `LorentzVectorBase.islorentzvector(::Type{MyLorentzVector})`                            | Declare that your type implements the interface |
-| `LorentzVectorBase.coordinate_system(::Type{MyLorentzVector}) = LorentzVectorBase.XYZE` | Declare the preferred coordinate system         |
-| `LorentzVectorBase.px(::MyLorentzVector)`                                               | Momentum X-component                            |
-| `LorentzVectorBase.py(::MyLorentzVector)`                                               | Momentum Y-component                            |
-| `LorentzVectorBase.pz(::MyLorentzVector)`                                               | Momentum Z-component                            |
-| `LorentzVectorBase.energy(::MyLorentzVector)`                                           | Energy                                          |
+You can inspect the required accessors for a given coordinate system using:
 
-### Option 3: Four-Momentum with Cylindrical Coordinates
+```julia
+coordinate_system(XYZT())  # returns (:x, :y, :z, :t)
+```
 
-| Required Methods                                               | Brief Description                                                                                                                       |
-| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `LorentzVectorBase.islorentzvector(::Type{MyLorentzVector})`   | Declare that your type implements the interface                                                                                         |
-| `LorentzVectorBase.coordinate_system(::Type{MyLorentzVector})` | Declare the preferred coordinate system, which must return `PtEtaPhiM`, `PtEtaPhiE`, `PtYPhiM`, or `PtYPhiE` (from `LorentzVectorBase`) |
-| `LorentzVectorBase.pt(::MyLorentzVector)`                      | Transverse momentum                                                                                                                     |
-| `LorentzVectorBase.phi(::MyLorentzVector)`                     | Azimuthal angle                                                                                                                         |
+This indicates which component accessors your type must implement to be compliant with that system.
 
-Additionally, you must implement _one_ of the following:
+That's it! Once those are defined, the `LorentzVectorBase` package will automatically
+provide implementations for a wide variety of additional kinematic functions and
+coordinate conversions.
 
-| Required Method                                 | Description                                 |
-| ----------------------------------------------- | ------------------------------------------- |
-| `LorentzVectorBase.eta(::MyLorentzVector)`      | Pseudorapidity                              |
-| `LorentzVectorBase.rapidity(::MyLorentzVector)` | Rapidity relative to the beam axis (z-axis) |
+## [What You Get Automatically](@id getter)
 
-And _one_ of:
+Once a minimal interface is implemented, the following functions become available (among others), categorized by topic:
 
-| Required Method                               | Description    |
-| --------------------------------------------- | -------------- |
-| `LorentzVectorBase.energy(::MyLorentzVector)` | Energy         |
-| `LorentzVectorBase.mass(::MyLorentzVector)`   | Invariant mass |
+### Cartesian Components
 
-The methods returning the coordinates of the preferred system (as specified by `coordinate_system()`) must be implemented.
+- [`x`](@ref), [`y`](@ref), [`z`](@ref), [`t`](@ref)
+- [`px`](@ref), [`py`](@ref), [`pz`](@ref), [`E`](@ref)
 
-## Optional Methods
+### Spherical and Cylindrical Coordinates
 
-| Optional Method                              | Description                                  |
-| -------------------------------------------- | -------------------------------------------- |
-| `LorentzVectorBase.mass2(::MyLorentzVector)` | Square of the mass                           |
-| `LorentzVectorBase.rho2(::MyLorentzVector)`  | ρ² = \|**p**\|² (squared momentum magnitude) |
+- [`spatial_magnitude`](@ref), [`spatial_magnitude2`](@ref)
+- [`polar_angle`](@ref), [`cos_theta`](@ref)
+- [`phi`](@ref), [`cos_phi`](@ref), [`sin_phi`](@ref)
 
-Additionally, any method from another option (i.e., a method from Option Y when methods from Option X are provided) may also be implemented.
+### Mass and Invariant Quantities
+
+- [`mass`](@ref), [`mass2`](@ref)
+- [`mt`](@ref), [`mt2`](@ref)
+- [`pt`](@ref), [`pt2`](@ref)
+
+### Rapidity and Related Quantities
+
+- [`eta`](@ref): pseudorapidity
+- [`rapidity`](@ref)
+
+### Boost Parameters
+
+- [`boost_beta`](@ref), [`boost_gamma`](@ref)
+
+### Light-Cone Coordinates
+
+- [`plus_component`](@ref), [`minus_component`](@ref)
+
+### Accessor Aliases
+
+To improve readability and interoperability, `LorentzVectorBase` provides a set of
+**aliases** for common physics terminology. These aliases map frequently used or
+alternative names to the canonical accessor functions.
+
+For example, `energy` is an alias for `t`, and `invariant_mass` maps to `mass`.
+
+```julia
+energy(lv)           === t(lv)
+invariant_mass(lv)   === mass(lv)
+transverse_momentum(lv) === pt(lv)
+```
+
+This allows users to choose more descriptive or domain-specific terminology without losing compatibility.
+
+### Available Aliases
+
+| Alias                  | Canonical Function |
+| ---------------------- | ------------------ |
+| `energy`               | `t`                |
+| `invariant_mass`       | `mass`             |
+| `invariant_mass2`      | `mass2`            |
+| `transverse_momentum`  | `pt`               |
+| `transverse_momentum2` | `pt2`              |
+| `perp`                 | `pt`               |
+| `perp2`                | `pt2`              |
+| `transverse_mass`      | `mt`               |
+| `transverse_mass2`     | `mt2`              |
+| `azimuthal_angle`      | `phi`              |
+| `pseudorapidity`       | `eta`              |
+
+## Coordinate System Tags
+
+The following coordinate systems are supported via tags like `XYZT()`, `PtEtaPhiM()`, etc.:
+
+- `XYZT`, `PxPyPzE` — position/time or cartesian four-momentum
+- `PtEtaPhiM` — common in collider physics
+
+Each tag specifies which component names (`x`, `pt`, `eta`, etc.) you must implement.
+
+## Example
+
+```julia
+struct MyVector
+    px::Float64
+    py::Float64
+    pz::Float64
+    E::Float64
+end
+
+LorentzVectorBase.coordinate_system(::Type{MyVector}) = XYZE()
+
+LorentzVectorBase.px(v::MyVector) = v.px
+LorentzVectorBase.py(v::MyVector) = v.py
+LorentzVectorBase.pz(v::MyVector) = v.pz
+LorentzVectorBase.energy(v::MyVector) = v.E
+```
+
+Now your type supports:
+
+```julia
+mass(MyVector(...))
+eta(MyVector(...))
+pt(MyVector(...))
+phi(MyVector(...))
+```
+
+without implementing them manually.

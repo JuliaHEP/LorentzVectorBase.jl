@@ -1,16 +1,47 @@
 """
-
     XYZT <: AbstractCoordinateSystem
 
-Cartesian coordinate system for four-vectors. Using this requires the implementation of the following interface functions:
+Represents the Cartesian coordinate system for four-vectors, where the components are labeled as (x, y, z, t).
+
+To use this coordinate system with a custom four-vector type, you must implement the following interface methods:
 
 ```julia
-LorentzVectorBase.x(::CustomFourVector)
-LorentzVectorBase.y(::CustomFourVector)
-LorentzVectorBase.z(::CustomFourVector)
-LorentzVectorBase.t(::CustomFourVector)
+LorentzVectorBase.x(::CustomFourVector)  # Returns the x-component
+LorentzVectorBase.y(::CustomFourVector)  # Returns the y-component
+LorentzVectorBase.z(::CustomFourVector)  # Returns the z-component
+LorentzVectorBase.t(::CustomFourVector)  # Returns the time component
 ```
 
+### Example
+
+The following example demonstrates how to define a custom four-vector type and implement the required interface:
+
+```jldoctest
+julia> struct CustomLVector
+           x
+           y
+           z
+           t
+       end
+
+julia> LorentzVectorBase.coordinate_system(::CustomLVector) = LorentzVectorBase.XYZT()
+
+julia> LorentzVectorBase.x(lv::CustomLVector) = lv.x
+
+julia> LorentzVectorBase.y(lv::CustomLVector) = lv.y
+
+julia> LorentzVectorBase.z(lv::CustomLVector) = lv.z
+
+julia> LorentzVectorBase.t(lv::CustomLVector) = lv.t
+
+julia> c = CustomLVector(1, 2, 3, 4)
+CustomLVector(1, 2, 3, 4)
+
+julia> @assert isapprox(LorentzVectorBase.spatial_magnitude(c), sqrt(1^2 + 2^2 + 3^2))
+
+```
+
+By implementing these methods, the custom type `CustomLVector` becomes compatible with `LorentzVectorBase` operations in the `XYZT` coordinate system.
 """
 struct XYZT <: AbstractCoordinateSystem end
 coordinate_names(::XYZT) = (:x, :y, :z, :t)
