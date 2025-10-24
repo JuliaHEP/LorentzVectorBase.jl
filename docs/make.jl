@@ -16,7 +16,7 @@ DocMeta.setdocmeta!(
 # some paths for links
 readme_path = joinpath(project_path, "README.md")
 index_path = joinpath(project_path, "docs/src/index.md")
-license_path = "https://github.com/QEDjl-project/QEDcore.jl/blob/main/LICENSE"
+license_path = "https://github.com/JuliaHEP/LorentzVectorBase.jl/blob/main/LICENSE"
 
 # Copy README.md from the project base folder and use it as the start page
 open(readme_path, "r") do readme_in
