@@ -1,7 +1,7 @@
 name = "LorentzVectorBase"
 uuid = "592a752d-6533-4762-a71b-738712ea30ec"
 authors = ["Uwe Hernandez Acosta <u.hernandez@hzdr.de>"]
-version = "0.0.1"
+version = "0.1.0"
 
 [compat]
 julia = "1.6"
