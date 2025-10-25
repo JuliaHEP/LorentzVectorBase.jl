@@ -111,7 +111,7 @@ Return the spatial magnitude of the Lorentz-vector-like `lv`, i.e., the magnitud
 
 # Example
 
-If the Lorentz-vector-like is a four-vector `(x, y, z, t)`, this function returns `sqrt(x^2 + y^2 + z^2)`.
+If the Lorentz-vector-like is a four-vector `(x, y, z, t)`, this function returns `\\sqrt(x^2 + y^2 + z^2)`.
 
 !!! warning
 
@@ -228,10 +228,10 @@ Return the invariant mass  of the Lorentz-vector-like `lv`, computed as the squa
 
 
 # Example
-For a four-momentum `(px, py, pz, E)`, this function returns `sqrt(E^2 - (px^2 + py^2 + pz^2))`.
+For a four-momentum `(px, py, pz, E)`, this function returns `\\sqrt(E^2 - (px^2 + py^2 + pz^2))`.
 
 # Notes
-- If the squared invariant mass `m^2` is negative, this function returns `-sqrt(-m^2)` to ensure a real result. This can happen in certain unphysical cases where the energy component is smaller than the spatial momentum magnitude.
+- If the squared invariant mass `m^2` is negative, this function returns `-\\sqrt(-m^2)` to ensure a real result. This can happen in certain unphysical cases where the energy component is smaller than the spatial momentum magnitude.
 
 # See Also
 - [`mass2`](@ref): For the squared invariant mass calculation.
@@ -247,7 +247,7 @@ Return the magnitude of the velocity (``\\beta``) of a particle as a fraction of
 
 
 # Example
-For a four-momentum `(px, py, pz, E)`, this function returns `sqrt(px^2 + py^2 + pz^2) / E`.
+For a four-momentum `(px, py, pz, E)`, this function returns `\\sqrt(px^2 + py^2 + pz^2) / E`.
 
 # Throws
 - `ArgumentError` if the time (energy) component is zero while the spatial components are non-zero, as this results in an undefined velocity.
@@ -267,7 +267,7 @@ Return the relativistic gamma factor (``\\gamma``) for the Lorentz-vector-like `
 
 
 # Example
-For a four-momentum `(px, py, pz, E)` with velocity ``\\beta``, this function returns ``1 / sqrt(1 - \\beta^2)``.
+For a four-momentum `(px, py, pz, E)` with velocity ``\\beta``, this function returns ``1 / \\sqrt(1 - \\beta^2)``.
 
 # See Also
 - [`boost_beta`](@ref): For the velocity ``\\beta``, which is used to compute ``\\gamma``.
@@ -299,7 +299,7 @@ Return the transverse momentum (``p_T``) of a given Lorentz-vector-like `lv`, de
 the Euclidean magnitude of the momentum components in the x-y plane.
 
 # Example
-For a four-momentum `(px, py, pz, E)`, this function returns `sqrt(px^2 + py^2)`.
+For a four-momentum `(px, py, pz, E)`, this function returns `\\sqrt(px^2 + py^2)`.
 
 # Notes
 - The transverse components are defined with respect to the z-axis (3-axis), representing the perpendicular momentum to this axis.
@@ -335,10 +335,10 @@ square root of the squared transverse mass. The transverse mass is often used in
 physics to describe the effective mass of a system when only the transverse components are considered.
 
 # Example
-For a four-momentum `(px, py, pz, E)`, this function returns `sqrt(E^2 - pz^2)`.
+For a four-momentum `(px, py, pz, E)`, this function returns `\\sqrt(E^2 - pz^2)`.
 
 # Notes
-- If the squared transverse mass (`mT^2`) is negative, the function returns `-sqrt(-mT^2)` to
+- If the squared transverse mass (`mT^2`) is negative, the function returns `-\\sqrt(-mT^2)` to
 handle the imaginary mass situation that can occur in some relativistic systems.
 - The transverse components are defined with respect to the z-axis (3-axis), indicating momentum in the x-y plane.
 
