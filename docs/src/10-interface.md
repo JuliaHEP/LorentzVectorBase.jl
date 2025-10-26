@@ -121,7 +121,7 @@ This allows users to choose more descriptive or domain-specific terminology with
 | `pseudorapidity`       | `eta`              |
 
 
-Note, that none the package functions are exported. They can always be called with `LorentzVectorBase.` prefix.
+Note, that most of the package functions are not exported. They can always be called with `LorentzVectorBase.` prefix.
 For convenience, these methods can be exported in customary packages that unilizes LorentzVectorBase.
 For example, as follows,
 
@@ -134,7 +134,7 @@ export invariant_mass
 end
 ```
 
-See also [an example](https://github.com/mmikhasenko/FourVectors.jl/blob/main/src/FourVectors.jl#L28-L33) of exporting multiple methods in a loop.
+See also [an example](https://github.com/mmikhasenko/FourVectors.jl/blob/main/src/FourVectors.jl#L28-L33) of exporting multiple selected methods in a loop.
 
 ## Coordinate System Tags
 
