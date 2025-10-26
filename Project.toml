@@ -1,6 +1,11 @@
 name = "LorentzVectorBase"
 uuid = "592a752d-6533-4762-a71b-738712ea30ec"
-authors = ["Uwe Hernandez Acosta <u.hernandez@hzdr.de>"]
+authors = ["Uwe Hernandez Acosta <u.hernandez@hzdr.de>",
+    "Philippe Gras <philippe.gras@cern.ch>",
+    "Mikhail Mikhasenko <mikhail.mikhasenko@cern.ch>",
+    "Jerry Ling <proton@jling.dev>",
+    "Michael Farrington <michael.steven.farrington@cern.ch>",
+    "Caspar Gutsche <caspargutsche1@gmail.com>"]
 version = "0.1.0"
 
 [compat]
