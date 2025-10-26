@@ -122,7 +122,7 @@ This allows users to choose more descriptive or domain-specific terminology with
 
 
 Note, that most of the package functions are not exported. They can always be called with `LorentzVectorBase.` prefix.
-For convenience, these methods can be exported in customary packages that unilizes LorentzVectorBase.
+For convenience, these methods can be exported in custom packages that utilize LorentzVectorBase.
 For example, as follows,
 
 ```julia
