@@ -22,4 +22,8 @@ begin
   @time @safetestset "PtEtaPhiM" begin
     include("PtEtaPhiM.jl")
   end
+
+  @time @safetestset "tutorial" begin
+    include("tutorial.jl")
+  end
 end

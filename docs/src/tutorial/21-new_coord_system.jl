@@ -160,3 +160,60 @@ LorentzVectorBase.y(v::MyLightConeVector) = v.y
 
 LorentzVectorBase.E(MyLightConeVector(3.0, 1.0, 1.0, 2.0))  # works!
 
+using Test  #src
+
+const ATOL = 1e-12  #src
+
+@testset "LightConeCoordinates basic relations" begin #src
+  plus = 3.0 #src
+  minus = 1.0 #src
+  xval = 1.0 #src
+  yval = 2.0 #src
+  v = MyLightConeVector(plus, minus, xval, yval) #src
+
+  @test coordinate_names(LightConeCoordinates()) == #src
+    (:plus_component, :minus_component, :x, :y) #src
+
+  @test LorentzVectorBase.plus_component(v) == plus #src
+  @test LorentzVectorBase.minus_component(v) == minus #src
+  @test LorentzVectorBase.x(v) == xval #src
+  @test LorentzVectorBase.y(v) == yval #src
+
+  @test LorentzVectorBase.t(v) ≈ (plus + minus) / sqrt(2.0) atol = ATOL #src
+  @test LorentzVectorBase.z(v) ≈ (plus - minus) / sqrt(2.0) atol = ATOL #src
+  @test LorentzVectorBase.E(v) ≈ (plus + minus) / sqrt(2.0) atol = ATOL #src
+  @test LorentzVectorBase.pz(v) ≈ (plus - minus) / sqrt(2.0) atol = ATOL #src
+
+  @test LorentzVectorBase.pt2(v) ≈ (xval^2 + yval^2) atol = ATOL #src
+  @test LorentzVectorBase.pt(v) ≈ sqrt(xval^2 + yval^2) atol = ATOL #src
+  @test LorentzVectorBase.spatial_magnitude2(v) ≈ #src
+    (xval^2 + yval^2 + ((plus - minus) / sqrt(2.0))^2) atol = ATOL #src
+  @test LorentzVectorBase.spatial_magnitude(v) ≈ #src
+    sqrt(xval^2 + yval^2 + ((plus - minus) / sqrt(2.0))^2) atol = ATOL #src
+
+  @test LorentzVectorBase.mass2(v) ≈ (2 * plus * minus - xval^2 - yval^2) atol = ATOL #src
+  @test LorentzVectorBase.mass(v) ≈ sqrt(2 * plus * minus - xval^2 - yval^2) atol = ATOL #src
+
+  @test LorentzVectorBase.mt2(v) ≈ #src
+    (((plus + minus) / sqrt(2.0))^2 - ((plus - minus) / sqrt(2.0))^2) atol = ATOL #src
+  @test LorentzVectorBase.mt(v) ≈ #src
+    sqrt(((plus + minus) / sqrt(2.0))^2 - ((plus - minus) / sqrt(2.0))^2) atol = ATOL #src
+
+  beta = LorentzVectorBase.boost_beta(v) #src
+  gamma = LorentzVectorBase.boost_gamma(v) #src
+  @test beta ≈ #src
+    sqrt(xval^2 + yval^2 + ((plus - minus) / sqrt(2.0))^2) / #src
+        ((plus + minus) / sqrt(2.0)) atol = ATOL #src
+  @test gamma ≈ 1 / sqrt(1 - beta^2) atol = ATOL #src
+
+  @test LorentzVectorBase.rapidity(v) ≈ 0.5 * log(plus / minus) atol = ATOL #src
+  @test LorentzVectorBase.polar_angle(v) ≈ #src
+    atan(sqrt(xval^2 + yval^2), (plus - minus) / sqrt(2.0)) atol = ATOL #src
+  @test LorentzVectorBase.cos_theta(v) ≈ #src
+    ((plus - minus) / sqrt(2.0)) / #src
+        sqrt(xval^2 + yval^2 + ((plus - minus) / sqrt(2.0))^2) atol = ATOL #src
+
+  @test LorentzVectorBase.phi(v) ≈ atan(yval, xval) atol = ATOL #src
+  @test LorentzVectorBase.cos_phi(v) ≈ xval / sqrt(xval^2 + yval^2) atol = ATOL #src
+  @test LorentzVectorBase.sin_phi(v) ≈ yval / sqrt(xval^2 + yval^2) atol = ATOL  #src
+end #src
