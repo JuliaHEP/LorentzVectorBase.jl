@@ -142,3 +142,21 @@ end
 #
 # Once that’s done, **all** the functions we defined here
 # will work automatically.
+
+# For example, here is a simple four-vector type using light-cone coordinates:
+struct MyLightConeVector
+  plus::Float64
+  minus::Float64
+  x::Float64
+  y::Float64
+end
+
+LorentzVectorBase.coordinate_system(::MyLightConeVector) = LightConeCoordinates()
+
+LorentzVectorBase.plus_component(v::MyLightConeVector) = v.plus
+LorentzVectorBase.minus_component(v::MyLightConeVector) = v.minus
+LorentzVectorBase.x(v::MyLightConeVector) = v.x
+LorentzVectorBase.y(v::MyLightConeVector) = v.y
+
+LorentzVectorBase.E(MyLightConeVector(3.0, 1.0, 1.0, 2.0))  # works!
+
