@@ -69,67 +69,67 @@ function LorentzVectorBase.z(::LightConeCoordinates, mom)
 end
 
 # Momentum magnitudes
-LorentzVectorBase.px(cs::LightConeCoordinates, mom) = LorentzVectorBase.x(mom)
-LorentzVectorBase.py(cs::LightConeCoordinates, mom) = LorentzVectorBase.y(mom)
-LorentzVectorBase.pz(cs::LightConeCoordinates, mom) = LorentzVectorBase.z(mom)
-LorentzVectorBase.E(cs::LightConeCoordinates, mom) = LorentzVectorBase.t(mom)
+LorentzVectorBase.px(::LightConeCoordinates, mom) = LorentzVectorBase.x(mom)
+LorentzVectorBase.py(::LightConeCoordinates, mom) = LorentzVectorBase.y(mom)
+LorentzVectorBase.pz(::LightConeCoordinates, mom) = LorentzVectorBase.z(mom)
+LorentzVectorBase.E(::LightConeCoordinates, mom) = LorentzVectorBase.t(mom)
 
 function LorentzVectorBase.pt2(::LightConeCoordinates, mom)
   return LorentzVectorBase.x(mom)^2 + LorentzVectorBase.y(mom)^2
 end
-LorentzVectorBase.pt(cs::LightConeCoordinates, mom) = sqrt(LorentzVectorBase.pt2(cs, mom))
+LorentzVectorBase.pt(::LightConeCoordinates, mom) = sqrt(LorentzVectorBase.pt2(mom))
 
-function LorentzVectorBase.spatial_magnitude2(cs::LightConeCoordinates, mom)
-  return LorentzVectorBase.pt2(cs, mom) + LorentzVectorBase.pz(cs, mom)^2
+function LorentzVectorBase.spatial_magnitude2(::LightConeCoordinates, mom)
+  return LorentzVectorBase.pt2(mom) + LorentzVectorBase.pz(mom)^2
 end
-function LorentzVectorBase.spatial_magnitude(cs::LightConeCoordinates, mom)
-  return sqrt(LorentzVectorBase.spatial_magnitude2(cs, mom))
+function LorentzVectorBase.spatial_magnitude(::LightConeCoordinates, mom)
+  return sqrt(LorentzVectorBase.spatial_magnitude2(mom))
 end
 
 # Mass and energy-related
-function LorentzVectorBase.mass2(cs::LightConeCoordinates, mom)
-  return LorentzVectorBase.E(cs, mom)^2 - LorentzVectorBase.spatial_magnitude2(cs, mom)
+function LorentzVectorBase.mass2(::LightConeCoordinates, mom)
+  return LorentzVectorBase.E(mom)^2 - LorentzVectorBase.spatial_magnitude2(mom)
 end
-function LorentzVectorBase.mass(cs::LightConeCoordinates, mom)
-  return sqrt(LorentzVectorBase.mass2(cs, mom))
-end
-
-function LorentzVectorBase.boost_beta(cs::LightConeCoordinates, mom)
-  return LorentzVectorBase.spatial_magnitude(cs, mom) / LorentzVectorBase.E(cs, mom)
-end
-function LorentzVectorBase.boost_gamma(cs::LightConeCoordinates, mom)
-  return 1 / sqrt(1 - LorentzVectorBase.boost_beta(cs, mom)^2)
+function LorentzVectorBase.mass(::LightConeCoordinates, mom)
+  return sqrt(LorentzVectorBase.mass2(mom))
 end
 
-function LorentzVectorBase.mt2(cs::LightConeCoordinates, mom)
-  return LorentzVectorBase.E(cs, mom)^2 - LorentzVectorBase.pz(cs, mom)^2
+function LorentzVectorBase.boost_beta(::LightConeCoordinates, mom)
+  return LorentzVectorBase.spatial_magnitude(mom) / LorentzVectorBase.E(mom)
 end
-LorentzVectorBase.mt(cs::LightConeCoordinates, mom) = sqrt(LorentzVectorBase.mt2(cs, mom))
+function LorentzVectorBase.boost_gamma(::LightConeCoordinates, mom)
+  return 1 / sqrt(1 - LorentzVectorBase.boost_beta(mom)^2)
+end
+
+function LorentzVectorBase.mt2(::LightConeCoordinates, mom)
+  return LorentzVectorBase.E(mom)^2 - LorentzVectorBase.pz(mom)^2
+end
+LorentzVectorBase.mt(::LightConeCoordinates, mom) = sqrt(LorentzVectorBase.mt2(mom))
 
 # Angular coordinates
-function LorentzVectorBase.rapidity(cs::LightConeCoordinates, mom)
+function LorentzVectorBase.rapidity(::LightConeCoordinates, mom)
   return 0.5 * log(
-    (LorentzVectorBase.E(cs, mom) + LorentzVectorBase.pz(cs, mom)) /
-    (LorentzVectorBase.E(cs, mom) - LorentzVectorBase.pz(cs, mom)),
+    (LorentzVectorBase.E(mom) + LorentzVectorBase.pz(mom)) /
+    (LorentzVectorBase.E(mom) - LorentzVectorBase.pz(mom)),
   )
 end
 
-function LorentzVectorBase.polar_angle(cs::LightConeCoordinates, mom)
-  return atan(LorentzVectorBase.pt(cs, mom), LorentzVectorBase.pz(cs, mom))
+function LorentzVectorBase.polar_angle(::LightConeCoordinates, mom)
+  return atan(LorentzVectorBase.pt(mom), LorentzVectorBase.pz(mom))
 end
 
-function LorentzVectorBase.cos_theta(cs::LightConeCoordinates, mom)
-  return LorentzVectorBase.pz(cs, mom) / LorentzVectorBase.spatial_magnitude(cs, mom)
+function LorentzVectorBase.cos_theta(::LightConeCoordinates, mom)
+  return LorentzVectorBase.pz(mom) / LorentzVectorBase.spatial_magnitude(mom)
 end
 
-function LorentzVectorBase.phi(cs::LightConeCoordinates, mom)
-  return atan(LorentzVectorBase.py(cs, mom), LorentzVectorBase.px(cs, mom))
+function LorentzVectorBase.phi(::LightConeCoordinates, mom)
+  return atan(LorentzVectorBase.py(mom), LorentzVectorBase.px(mom))
 end
-function LorentzVectorBase.cos_phi(cs::LightConeCoordinates, mom)
-  return LorentzVectorBase.px(cs, mom) / LorentzVectorBase.pt(cs, mom)
+function LorentzVectorBase.cos_phi(::LightConeCoordinates, mom)
+  return LorentzVectorBase.px(mom) / LorentzVectorBase.pt(mom)
 end
-function LorentzVectorBase.sin_phi(cs::LightConeCoordinates, mom)
-  return LorentzVectorBase.py(cs, mom) / LorentzVectorBase.pt(cs, mom)
+function LorentzVectorBase.sin_phi(::LightConeCoordinates, mom)
+  return LorentzVectorBase.py(mom) / LorentzVectorBase.pt(mom)
 end
 
 # ## 4. Using the coordinate system
