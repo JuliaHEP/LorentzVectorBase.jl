@@ -51,7 +51,7 @@ for func in FOURMOMENTUM_GETTER_FUNCTIONS
 end
 
 const FOURMOMENTUM_GETTER_ALIASSES = Dict(
-  :energy => :t,
+  :energy => :E,
   :invariant_mass => :mass,
   :invariant_mass2 => :mass2,
   :transverse_momentum => :pt,
