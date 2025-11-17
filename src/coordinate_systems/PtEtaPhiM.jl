@@ -108,7 +108,7 @@ end
 function mt(::PtEtaPhiM, mom)
   mT2 = mt2(mom)
   if mT2 < zero(mT2)
-    # add optional waring: negative transverse mass -> -sqrt(-mT2) is returned.
+    # add optional warning: negative transverse mass -> -sqrt(-mT2) is returned.
     -sqrt(-mT2)
   else
     sqrt(mT2)
