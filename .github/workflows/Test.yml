@@ -11,11 +11,11 @@ jobs:
     test:
         uses: ./.github/workflows/ReusableTest.yml
         with:
-            os: ${{ matrix.os }}
+            os: ${{ matrix.platform.os }}
             version: ${{ matrix.version }}
-            arch: ${{ matrix.arch }}
+            arch: ${{ matrix.platform.arch }}
             allow_failure: ${{ matrix.allow_failure }}
-            run_codecov: ${{ matrix.version == '1' && matrix.os == 'ubuntu-latest' }}
+            run_codecov: ${{ matrix.version == '1' && matrix.platform.os == 'ubuntu-latest' }}
         secrets:
             codecov_token: ${{ secrets.CODECOV_TOKEN }}
         strategy:
@@ -24,10 +24,11 @@ jobs:
                 version:
                     - "lts"
                     - "1"
-                os:
-                    - ubuntu-latest
-                    - macOS-latest
-                    - windows-latest
-                arch:
-                    - x64
+                platform:
+                    - os: ubuntu-latest
+                      arch: x64
+                    - os: macOS-latest
+                      arch: aarch64
+                    - os: windows-latest
+                      arch: x64
                 allow_failure: [false]
