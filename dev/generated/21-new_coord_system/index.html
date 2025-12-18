@@ -3,67 +3,81 @@
 LorentzVectorBase.minus_component(v)
 LorentzVectorBase.x(v)
 LorentzVectorBase.y(v)</code></pre><p>All other kinematic quantities (<code>mass</code>, <code>pt</code>, <code>eta</code>, <code>phi</code>, etc.) will be defined <em>once</em> in the coordinate system and will work for any vector type implementing the coordinate getters.</p><pre><code class="language-julia hljs">using LorentzVectorBase</code></pre><h2 id="1.-Define-the-coordinate-system-type"><a class="docs-heading-anchor" href="#1.-Define-the-coordinate-system-type">1. Define the coordinate system type</a><a id="1.-Define-the-coordinate-system-type-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Define-the-coordinate-system-type" title="Permalink"></a></h2><p>Coordinate systems are <a href="https://docs.julialang.org/en/v1/manual/types/#man-singleton-types">singletons</a> and must be subtypes of <code>AbstractCoordinateSystem</code>.</p><pre><code class="language-julia hljs">struct LightConeCoordinates &lt;: LorentzVectorBase.AbstractCoordinateSystem end</code></pre><h2 id="2.-Define-the-coordinate-names"><a class="docs-heading-anchor" href="#2.-Define-the-coordinate-names">2. Define the coordinate names</a><a id="2.-Define-the-coordinate-names-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Define-the-coordinate-names" title="Permalink"></a></h2><p><code>coordinate_names</code> returns the tuple of <strong>getter function names</strong> that <em>must</em> be implemented for any vector type using this coordinate system.</p><pre><code class="language-julia hljs">function LorentzVectorBase.coordinate_names(::LightConeCoordinates)
-  (:plus_component, :minus_component, :x, :y)
+  return (:plus_component, :minus_component, :x, :y)
 end</code></pre><h2 id="3.-Implement-the-derived-kinematic-functions"><a class="docs-heading-anchor" href="#3.-Implement-the-derived-kinematic-functions">3. Implement the derived kinematic functions</a><a id="3.-Implement-the-derived-kinematic-functions-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Implement-the-derived-kinematic-functions" title="Permalink"></a></h2><p>The coordinate system must implement all relevant getter functions listed in <code>FOURMOMENTUM_GETTER_FUNCTIONS</code>, except those returned by <code>coordinate_names</code>.</p><p>These implementations are <em>type-generic</em> — they take a coordinate system instance and a <code>mom</code> (momentum object), and call only the coordinate-specific getters (<code>plus_component</code>, <code>minus_component</code>, <code>x</code>, <code>y</code>).</p><pre><code class="language-julia hljs">const SQRT2 = sqrt(2.0)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">1.4142135623730951</code></pre><p>Cartesian component accessors</p><pre><code class="language-julia hljs">function LorentzVectorBase.t(::LightConeCoordinates, mom)
-  (plus_component(mom) + minus_component(mom)) / SQRT2
+  return (LorentzVectorBase.plus_component(mom) + LorentzVectorBase.minus_component(mom)) /
+         SQRT2
 end
 function LorentzVectorBase.z(::LightConeCoordinates, mom)
-  (plus_component(mom) - minus_component(mom)) / SQRT2
-end</code></pre><p>Momentum magnitudes</p><pre><code class="language-julia hljs">LorentzVectorBase.px(::LightConeCoordinates, mom) = p_x(mom)
-LorentzVectorBase.py(::LightConeCoordinates, mom) = p_y(mom)
-function LorentzVectorBase.pz(::LightConeCoordinates, mom)
-  (plus_component(mom) - minus_component(mom)) / SQRT2
+  return (LorentzVectorBase.plus_component(mom) - LorentzVectorBase.minus_component(mom)) /
+         SQRT2
+end</code></pre><p>Momentum magnitudes</p><pre><code class="language-julia hljs">LorentzVectorBase.px(::LightConeCoordinates, mom) = LorentzVectorBase.x(mom)
+LorentzVectorBase.py(::LightConeCoordinates, mom) = LorentzVectorBase.y(mom)
+LorentzVectorBase.pz(::LightConeCoordinates, mom) = LorentzVectorBase.z(mom)
+LorentzVectorBase.E(::LightConeCoordinates, mom) = LorentzVectorBase.t(mom)
+
+function LorentzVectorBase.pt2(::LightConeCoordinates, mom)
+  return LorentzVectorBase.x(mom)^2 + LorentzVectorBase.y(mom)^2
 end
-function LorentzVectorBase.E(::LightConeCoordinates, mom)
-  (plus_component(mom) + minus_component(mom)) / SQRT2
+LorentzVectorBase.pt(::LightConeCoordinates, mom) = sqrt(LorentzVectorBase.pt2(mom))
+
+function LorentzVectorBase.spatial_magnitude2(::LightConeCoordinates, mom)
+  return LorentzVectorBase.pt2(mom) + LorentzVectorBase.pz(mom)^2
+end
+function LorentzVectorBase.spatial_magnitude(::LightConeCoordinates, mom)
+  return sqrt(LorentzVectorBase.spatial_magnitude2(mom))
+end</code></pre><p>Mass and energy-related</p><pre><code class="language-julia hljs">function LorentzVectorBase.mass2(::LightConeCoordinates, mom)
+  return LorentzVectorBase.E(mom)^2 - LorentzVectorBase.spatial_magnitude2(mom)
+end
+function LorentzVectorBase.mass(::LightConeCoordinates, mom)
+  return sqrt(LorentzVectorBase.mass2(mom))
 end
 
-LorentzVectorBase.pt2(::LightConeCoordinates, mom) = p_x(mom)^2 + p_y(mom)^2
-LorentzVectorBase.pt(cs::LightConeCoordinates, mom) = sqrt(LorentzVectorBase.pt2(cs, mom))
-
-function LorentzVectorBase.spatial_magnitude2(cs::LightConeCoordinates, mom)
-  LorentzVectorBase.pt2(cs, mom) + LorentzVectorBase.pz(cs, mom)^2
+function LorentzVectorBase.boost_beta(::LightConeCoordinates, mom)
+  return LorentzVectorBase.spatial_magnitude(mom) / LorentzVectorBase.E(mom)
 end
-function LorentzVectorBase.spatial_magnitude(cs::LightConeCoordinates, mom)
-  sqrt(LorentzVectorBase.spatial_magnitude2(cs, mom))
-end</code></pre><p>Mass and energy-related</p><pre><code class="language-julia hljs">function LorentzVectorBase.mass2(cs::LightConeCoordinates, mom)
-  LorentzVectorBase.E(cs, mom)^2 - LorentzVectorBase.spatial_magnitude2(cs, mom)
-end
-function LorentzVectorBase.mass(cs::LightConeCoordinates, mom)
-  sqrt(LorentzVectorBase.mass2(cs, mom))
+function LorentzVectorBase.boost_gamma(::LightConeCoordinates, mom)
+  return 1 / sqrt(1 - LorentzVectorBase.boost_beta(mom)^2)
 end
 
-function LorentzVectorBase.boost_beta(cs::LightConeCoordinates, mom)
-  LorentzVectorBase.spatial_magnitude(cs, mom) / LorentzVectorBase.E(cs, mom)
+function LorentzVectorBase.mt2(::LightConeCoordinates, mom)
+  return LorentzVectorBase.E(mom)^2 - LorentzVectorBase.pz(mom)^2
 end
-function LorentzVectorBase.boost_gamma(cs::LightConeCoordinates, mom)
-  1 / sqrt(1 - LorentzVectorBase.boost_beta(cs, mom)^2)
-end
-
-function LorentzVectorBase.mt2(cs::LightConeCoordinates, mom)
-  LorentzVectorBase.E(cs, mom)^2 - LorentzVectorBase.pz(cs, mom)^2
-end
-LorentzVectorBase.mt(cs::LightConeCoordinates, mom) = sqrt(LorentzVectorBase.mt2(cs, mom))</code></pre><p>Angular coordinates</p><pre><code class="language-julia hljs">function LorentzVectorBase.rapidity(cs::LightConeCoordinates, mom)
-  0.5 * log(
-    (LorentzVectorBase.E(cs, mom) + LorentzVectorBase.pz(cs, mom)) /
-    (LorentzVectorBase.E(cs, mom) - LorentzVectorBase.pz(cs, mom)),
+LorentzVectorBase.mt(::LightConeCoordinates, mom) = sqrt(LorentzVectorBase.mt2(mom))</code></pre><p>Angular coordinates</p><pre><code class="language-julia hljs">function LorentzVectorBase.rapidity(::LightConeCoordinates, mom)
+  return 0.5 * log(
+    (LorentzVectorBase.E(mom) + LorentzVectorBase.pz(mom)) /
+    (LorentzVectorBase.E(mom) - LorentzVectorBase.pz(mom)),
   )
 end
 
-function LorentzVectorBase.polar_angle(cs::LightConeCoordinates, mom)
-  atan(LorentzVectorBase.pt(cs, mom), LorentzVectorBase.pz(cs, mom))
+function LorentzVectorBase.polar_angle(::LightConeCoordinates, mom)
+  return atan(LorentzVectorBase.pt(mom), LorentzVectorBase.pz(mom))
 end
 
-function LorentzVectorBase.cos_theta(cs::LightConeCoordinates, mom)
-  LorentzVectorBase.pz(cs, mom) / LorentzVectorBase.spatial_magnitude(cs, mom)
+function LorentzVectorBase.cos_theta(::LightConeCoordinates, mom)
+  return LorentzVectorBase.pz(mom) / LorentzVectorBase.spatial_magnitude(mom)
 end
 
-function LorentzVectorBase.phi(cs::LightConeCoordinates, mom)
-  atan(LorentzVectorBase.py(cs, mom), LorentzVectorBase.px(cs, mom))
+function LorentzVectorBase.phi(::LightConeCoordinates, mom)
+  return atan(LorentzVectorBase.py(mom), LorentzVectorBase.px(mom))
 end
-function LorentzVectorBase.cos_phi(cs::LightConeCoordinates, mom)
-  LorentzVectorBase.px(cs, mom) / LorentzVectorBase.pt(cs, mom)
+function LorentzVectorBase.cos_phi(::LightConeCoordinates, mom)
+  return LorentzVectorBase.px(mom) / LorentzVectorBase.pt(mom)
 end
-function LorentzVectorBase.sin_phi(cs::LightConeCoordinates, mom)
-  LorentzVectorBase.py(cs, mom) / LorentzVectorBase.pt(cs, mom)
-end</code></pre><h2 id="4.-Using-the-coordinate-system"><a class="docs-heading-anchor" href="#4.-Using-the-coordinate-system">4. Using the coordinate system</a><a id="4.-Using-the-coordinate-system-1"></a><a class="docs-heading-anchor-permalink" href="#4.-Using-the-coordinate-system" title="Permalink"></a></h2><p>To use <code>LightConeCoordinates</code>, a Lorentz vector type needs to:</p><ol><li>Implement <code>coordinate_system(::MyVectorType) = LightConeCoordinates()</code></li><li>Implement the four getters listed in <code>coordinate_names</code>: <code>plus_component</code>, <code>minus_component</code>, <code>x</code>, <code>y</code></li></ol><p>Once that’s done, <strong>all</strong> the functions we defined here will work automatically.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../20-new_four_vector/">« New Four-Vector</a><a class="docs-footer-nextpage" href="../../90-contributing/">Contributors guide »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Thursday 18 December 2025 22:30">Thursday 18 December 2025</span>. Using Julia version 1.12.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+function LorentzVectorBase.sin_phi(::LightConeCoordinates, mom)
+  return LorentzVectorBase.py(mom) / LorentzVectorBase.pt(mom)
+end</code></pre><h2 id="4.-Using-the-coordinate-system"><a class="docs-heading-anchor" href="#4.-Using-the-coordinate-system">4. Using the coordinate system</a><a id="4.-Using-the-coordinate-system-1"></a><a class="docs-heading-anchor-permalink" href="#4.-Using-the-coordinate-system" title="Permalink"></a></h2><p>To use <code>LightConeCoordinates</code>, a Lorentz vector type needs to:</p><ol><li>Implement <code>coordinate_system(::MyVectorType) = LightConeCoordinates()</code></li><li>Implement the four getters listed in <code>coordinate_names</code>: <code>plus_component</code>, <code>minus_component</code>, <code>x</code>, <code>y</code></li></ol><p>Once that’s done, <strong>all</strong> the functions we defined here will work automatically.</p><p>For example, here is a simple four-vector type using light-cone coordinates:</p><pre><code class="language-julia hljs">struct MyLightConeVector
+  plus::Float64
+  minus::Float64
+  x::Float64
+  y::Float64
+end
+
+LorentzVectorBase.coordinate_system(::MyLightConeVector) = LightConeCoordinates()
+
+LorentzVectorBase.plus_component(v::MyLightConeVector) = v.plus
+LorentzVectorBase.minus_component(v::MyLightConeVector) = v.minus
+LorentzVectorBase.x(v::MyLightConeVector) = v.x
+LorentzVectorBase.y(v::MyLightConeVector) = v.y
+
+LorentzVectorBase.E(MyLightConeVector(3.0, 1.0, 1.0, 2.0))  # works!</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">2.82842712474619</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../20-new_four_vector/">« New Four-Vector</a><a class="docs-footer-nextpage" href="../../90-contributing/">Contributors guide »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Thursday 18 December 2025 22:31">Thursday 18 December 2025</span>. Using Julia version 1.12.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
