@@ -26,7 +26,7 @@ To make your type compliant with `LorentzVectorBase`, you must:
 Assign a coordinate system using:
 
 ```julia
-LorentzVectorBase.coordinate_system(::Type{MyVector}) = XYZT()
+LorentzVectorBase.coordinate_system(::MyVector) = XYZT()
 ```
 
 Coordinate systems are tagged using constructors like `XYZT()`, `PtEtaPhiE()`, etc. These indicate how the four components are interpreted.
@@ -45,7 +45,7 @@ t(::MyVector)
 You can inspect the required accessors for a given coordinate system using:
 
 ```julia
-coordinate_system(XYZT())  # returns (:x, :y, :z, :t)
+coordinate_names(XYZT())  # returns (:x, :y, :z, :t)
 ```
 
 This indicates which component accessors your type must implement to be compliant with that system.
@@ -155,7 +155,7 @@ struct MyVector
     E::Float64
 end
 
-LorentzVectorBase.coordinate_system(::Type{MyVector}) = XYZE()
+LorentzVectorBase.coordinate_system(::MyVector) = PxPyPzE()
 
 LorentzVectorBase.px(v::MyVector) = v.px
 LorentzVectorBase.py(v::MyVector) = v.py

@@ -25,7 +25,7 @@ mom_onshell = CustomMom(px, py, pz, E)
 mom_zero = CustomMom(0.0, 0.0, 0.0, 0.0)
 mom_offshell = CustomMom(0.0, 0.0, m, 0.0)
 
-@testset "cooridnate names" begin
+@testset "coordinate names" begin
   coordinate_names(LorentzVectorBase.PxPyPzE()) == (:px, :py, :pz, :E)
 end
 
@@ -89,7 +89,7 @@ end
   @test isapprox(LorentzVectorBase.boost_gamma(mom_zero), 1.0)
 end
 
-@testset "transverse coordiantes value" begin
+@testset "transverse coordinates value" begin
   @test isapprox(LorentzVectorBase.pt2(mom_onshell), px^2 + py^2)
   @test isapprox(LorentzVectorBase.pt(mom_onshell), sqrt(px^2 + py^2))
   @test isapprox(LorentzVectorBase.mt2(mom_onshell), E^2 - pz^2)
@@ -104,7 +104,7 @@ end
   @test isapprox(LorentzVectorBase.mt(mom_zero), 0.0)
 end
 
-@testset "spherical coordiantes consistence" for mom_on in [mom_onshell, mom_zero]
+@testset "spherical coordinates consistence" for mom_on in [mom_onshell, mom_zero]
   @test isapprox(
     LorentzVectorBase.cos_theta(mom_on), cos(LorentzVectorBase.polar_angle(mom_on))
   )
@@ -139,7 +139,7 @@ end
   @test LorentzVectorBase.azimuthal_angle(p) ≈ -ϕ
 end
 
-@testset "spherical coordiantes values" begin
+@testset "spherical coordinates values" begin
   @test isapprox(
     LorentzVectorBase.polar_angle(mom_onshell), atan(LorentzVectorBase.pt(mom_onshell), pz)
   )
@@ -149,7 +149,7 @@ end
   @test isapprox(LorentzVectorBase.phi(mom_zero), 0.0)
 end
 
-@testset "light-cone coordiantes" begin
+@testset "light-cone coordinates" begin
   @test isapprox(LorentzVectorBase.plus_component(mom_onshell), 0.5 * (E + pz))
   @test isapprox(LorentzVectorBase.minus_component(mom_onshell), 0.5 * (E - pz))
 

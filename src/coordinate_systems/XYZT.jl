@@ -66,7 +66,7 @@ function z end
   return x(mom)^2 + y(mom)^2 + z(mom)^2
 end
 
-@inline function spatial_magnitude(cs::XYZT, mom)
+@inline function spatial_magnitude(::XYZT, mom)
   return sqrt(spatial_magnitude2(mom))
 end
 
@@ -124,7 +124,7 @@ end
 function mt(::XYZT, mom)
   mT2 = mt2(mom)
   if mT2 < zero(mT2)
-    # add optional waring: negative transverse mass -> -sqrt(-mT2) is returned.
+    # add optional warning: negative transverse mass -> -sqrt(-mT2) is returned.
     -sqrt(-mT2)
   else
     sqrt(mT2)

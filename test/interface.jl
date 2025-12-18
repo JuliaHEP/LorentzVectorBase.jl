@@ -22,7 +22,7 @@ LorentzVectorBase.coordinate_system(::TestMomentum) = TestCoordinteSystem()
   end
 end
 
-@testset "Aliasses" begin
+@testset "Aliases" begin
   mom = TestMomentum()
   @testset "$alias, $fun" for (alias, fun) in LorentzVectorBase.FOURMOMENTUM_GETTER_ALIASSES
     alias_result = eval(quote

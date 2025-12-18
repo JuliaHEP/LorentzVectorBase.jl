@@ -23,7 +23,7 @@ t = sqrt(1 + x^2 + y^2 + z^2) # ensure a positive p*p
 lvec_non_zero = CustomLVector(x, y, z, t)
 lvec_zero = CustomLVector(0.0, 0.0, 0.0, 0.0)
 
-@testset "coordiante names" begin
+@testset "coordinate names" begin
   coordinate_names(LorentzVectorBase.XYZT()) == (:x, :y, :z, :E)
 end
 
@@ -94,7 +94,7 @@ end
   @test_throws ArgumentError LorentzVectorBase.boost_beta(CustomLVector(1, 1, 1, 0))
 end
 
-@testset "transverse coordiantes value" begin
+@testset "transverse coordinates value" begin
   @test isapprox(LorentzVectorBase.pt2(lvec_non_zero), x^2 + y^2)
   @test isapprox(LorentzVectorBase.pt(lvec_non_zero), sqrt(x^2 + y^2))
   @test isapprox(LorentzVectorBase.mt2(lvec_non_zero), t^2 - z^2)
@@ -117,7 +117,7 @@ end
   @test isapprox(LorentzVectorBase.eta(CustomLVector(0.0, 0.0, -1.0, 0.0)), -10e10)
 end
 
-@testset "spherical coordiantes consistence" for lvec in [lvec_non_zero, lvec_zero]
+@testset "spherical coordinates consistence" for lvec in [lvec_non_zero, lvec_zero]
   @test isapprox(
     LorentzVectorBase.cos_theta(lvec), cos(LorentzVectorBase.polar_angle(lvec))
   )
@@ -125,7 +125,7 @@ end
   @test isapprox(LorentzVectorBase.sin_phi(lvec), sin(LorentzVectorBase.phi(lvec)))
 end
 
-@testset "spherical coordiantes values" begin
+@testset "spherical coordinates values" begin
   @test isapprox(
     LorentzVectorBase.polar_angle(lvec_non_zero),
     atan(LorentzVectorBase.pt(lvec_non_zero), z),
@@ -136,7 +136,7 @@ end
   @test isapprox(LorentzVectorBase.phi(lvec_zero), 0.0)
 end
 
-@testset "light-cone coordiantes" begin
+@testset "light-cone coordinates" begin
   @test isapprox(LorentzVectorBase.plus_component(lvec_non_zero), 0.5 * (t + z))
   @test isapprox(LorentzVectorBase.minus_component(lvec_non_zero), 0.5 * (t - z))
 
