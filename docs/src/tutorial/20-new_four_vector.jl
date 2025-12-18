@@ -70,3 +70,19 @@ using LorentzVectorBase: energy, invariant_mass, transverse_momentum
 energy(v) # Same as `t(v)` or `E(v)`
 invariant_mass(v) # Same as `mass(v)`
 transverse_momentum(v) # Same as `pt(v)`
+
+using Test #src
+px = 1.0 #src
+py = 2.0 #src
+pz = 3.0 #src
+E = 4.0 #src
+@test LorentzVectorBase.x(v) == px #src
+@test LorentzVectorBase.y(v) == py #src
+@test LorentzVectorBase.z(v) == pz #src
+@test LorentzVectorBase.t(v) == E #src
+
+@test mass(v) ≈ sqrt(E^2 - (px^2 + py^2 + pz^2)) #src
+@test pt(v) ≈ hypot(px, py) #src
+@test eta(v) ≈ 0.5 * log((hypot(px, py, pz) + pz) / (hypot(px, py, pz) - pz)) #src
+@test rapidity(v) ≈ 0.5 * log((E + pz) / (E - pz)) #src
+@test phi(v) ≈ atan(py, px) #src
