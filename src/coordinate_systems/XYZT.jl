@@ -50,13 +50,10 @@ coordinate_names(::XYZT) = (:x, :y, :z, :t)
 # Interface functions
 ####
 
-function t end
-
-function x end
-
-function y end
-
-function z end
+px(XYZT, p) = x(p)
+py(XYZT, p) = y(p)
+pz(XYZT, p) = z(p)
+E(XYZT, p) = t(p)
 
 ####
 # derived components

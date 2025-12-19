@@ -94,10 +94,10 @@ To improve readability and interoperability, `LorentzVectorBase` provides a set 
 **aliases** for common physics terminology. These aliases map frequently used or
 alternative names to the canonical accessor functions.
 
-For example, `energy` is an alias for `t`, and `invariant_mass` maps to `mass`.
+For example, `energy` is an alias for `E`, and `invariant_mass` maps to `mass`.
 
 ```julia
-energy(lv)           === t(lv)
+energy(lv)           === E(lv)
 invariant_mass(lv)   === mass(lv)
 transverse_momentum(lv) === pt(lv)
 ```
@@ -108,7 +108,7 @@ This allows users to choose more descriptive or domain-specific terminology with
 
 | Alias                  | Canonical Function |
 | ---------------------- | ------------------ |
-| `energy`               | `t`                |
+| `energy`               | `E`                |
 | `invariant_mass`       | `mass`             |
 | `invariant_mass2`      | `mass2`            |
 | `transverse_momentum`  | `pt`               |
