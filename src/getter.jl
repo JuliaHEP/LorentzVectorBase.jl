@@ -50,7 +50,7 @@ E
 Return the x-component of a given Lorentz-vector-like `lv`.
 
 # Example
-    For a four-momentum `(px, py, pz, E)`, this function returns the `px` component.
+For a four-momentum `(px, py, pz, E)`, this function returns the `px` component.
 
 # See Also
 - [`LorentzVectorBase.x`](@ref): The x-component of a Lorentz-vector-like, which is equivalent to `px`.
@@ -161,7 +161,7 @@ Return the azimuthal angle (``\\phi``) of the Lorentz-vector-like `lv`.
 The azimuthal angle is the angle between the x-axis and the projection of the Lorentz-vector-like on the x-y plane.
 
 # Example
-    If ``(x, y, z, t)`` is a four-vector, this is equivalent to ``atan(y / x)``.
+If ``(x, y, z, t)`` is a four-vector, this is equivalent to ``atan(y / x)``.
 
 !!! note
 
