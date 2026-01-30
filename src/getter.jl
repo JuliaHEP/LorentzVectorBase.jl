@@ -365,7 +365,7 @@ where ``\\theta`` is the polar angle of the Lorentz-vector-like relative to the 
 
 
 # Example
-For a four-momentum `(px, py, pz, E)`, this function `log(tan(theta/2))` where `theta` is given by the [`polar_angle`](@ref).
+For a four-momentum `(px, py, pz, E)`, this function returns `log(tan(theta/2))` where `theta` is given by the [`polar_angle`](@ref).
 
 !!! warning
 
