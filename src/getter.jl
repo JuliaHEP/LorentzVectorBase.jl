@@ -370,8 +370,12 @@ For a four-momentum `(px, py, pz, E)`, this function returns `log(tan(theta/2))`
 !!! warning
 
     If the transverse momentum (`pt`) is zero (i.e., the particle is aligned with the beam axis),
-    a warning is raised, and a large pseudorapidity value (±10e10) is returned as a convention.
+    a warning is raised, and `±Inf` (depending on the sign of the z-component) is returned as a convention.
     This occurs because the pseudorapidity is ill-defined when `pt = 0`.
+
+    For compatibility with other software, the returned values might be clamped. In particular:
+    - With ROOT legacy vectors ([TLorentzVector](https://root.cern.ch/doc/master/classTLorentzVector.html)), use `clamp(eta(lv), -1e11, 1e11)`.
+    - With ROOT [GenVector](https://root.cern/doc/master/group__GenVector.html) classes (`ROOT::Math::LorentzVector`, `ROOT::Math::XYZTVector`), use `clamp(eta(lv), z(lv) - 22756, z(lv) + 22756)`.
 
 # Notes
 - Pseudorapidity is approximately equal to the rapidity ``y`` in the ultra-relativistic limit
