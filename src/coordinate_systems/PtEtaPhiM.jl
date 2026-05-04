@@ -57,6 +57,10 @@ px(::PtEtaPhiM, v) = pt(v) * cos(phi(v))
 py(::PtEtaPhiM, v) = pt(v) * sin(phi(v))
 pz(::PtEtaPhiM, v) = pt(v) * sinh(eta(v))
 
+x(::PtEtaPhiM, v) = px(v)
+y(::PtEtaPhiM, v) = py(v)
+z(::PtEtaPhiM, v) = pz(v)
+
 function E(::PtEtaPhiM, mom)
   return sqrt(px(mom)^2 + py(mom)^2 + pz(mom)^2 + invariant_mass2(mom))
 end

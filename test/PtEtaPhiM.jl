@@ -112,6 +112,14 @@ end
   @test isapprox(LorentzVectorBase.px(mom_zero), 0.0)
   @test isapprox(LorentzVectorBase.py(mom_zero), 0.0)
   @test isapprox(LorentzVectorBase.pz(mom_zero), 0.0)
+
+  @test isapprox(LorentzVectorBase.x(mom_onshell), x)
+  @test isapprox(LorentzVectorBase.y(mom_onshell), y)
+  @test isapprox(LorentzVectorBase.z(mom_onshell), z)
+
+  @test isapprox(LorentzVectorBase.x(mom_zero), 0.0)
+  @test isapprox(LorentzVectorBase.y(mom_zero), 0.0)
+  @test isapprox(LorentzVectorBase.z(mom_zero), 0.0)
 end
 
 @testset "spherical coordinate values" begin
