@@ -113,8 +113,8 @@ end
   @test isapprox(LorentzVectorBase.eta(lvec_non_zero), 0.5 * log((1 + cth) / (1 - cth)))
 
   @test isapprox(LorentzVectorBase.eta(lvec_zero), 0.0)
-  @test isapprox(LorentzVectorBase.eta(CustomLVector(0.0, 0.0, 1.0, 0.0)), 10e10)
-  @test isapprox(LorentzVectorBase.eta(CustomLVector(0.0, 0.0, -1.0, 0.0)), -10e10)
+  @test LorentzVectorBase.eta(CustomLVector(0.0, 0.0, 1.0, 0.0)) == Inf
+  @test LorentzVectorBase.eta(CustomLVector(0.0, 0.0, -1.0, 0.0)) == -Inf
 end
 
 @testset "spherical coordinates consistence" for lvec in [lvec_non_zero, lvec_zero]

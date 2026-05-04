@@ -149,12 +149,12 @@ function eta(::XYZT, mom)
     return zero(zcomp)
   end
 
-  @warn "Pseudorapidity (η): transverse momentum is zero! return +/- 10e10"
+  @warn "Pseudorapidity (η): transverse momentum is zero! return ±Inf"
   if zcomp > zero(zcomp)
-    return 10e10
+    return oftype(zcomp, Inf)
   end
 
-  return -10e10
+  return oftype(zcomp, -Inf)
 end
 
 #######################
